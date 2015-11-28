@@ -51,7 +51,7 @@ define ppaas::initialize ($repo, $version, $service, $local_dir, $target, $mode,
       owner        => $owner,
       group        => $group,
       mode         => '0755',
-      source       => "puppet:///modules/${service}/wso2${service}-${version}.zip",
+      source       => "puppet:///modules/${service}/packs/wso2${service}-${version}.zip",
       require      => Exec["creating_local_package_repo_for_${name}", "creating_target_for_${name}"];
   }
 }
