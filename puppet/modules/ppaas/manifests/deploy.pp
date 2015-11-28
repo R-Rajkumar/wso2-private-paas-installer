@@ -27,9 +27,7 @@ define ppaas::deploy ($service, $security, $target, $owner, $group) {
     recurse      => 'remote',
     source       => [
       'puppet:///modules/ppaas/configs/',
-      'puppet:///modules/ppaas/patches/',
-      'puppet:///modules/wso2base/configs/',
-      'puppet:///modules/wso2base/patches/',],
+      'puppet:///modules/ppaas/patches/'],
     notify       => Service["wso2${ppaas::service_code}"]
   }
 }

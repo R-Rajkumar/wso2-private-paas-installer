@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-#  Copyright 2005-2013 WSO2, Inc. http://www.wso2.org
+#  Copyright 2005-2015 WSO2, Inc. http://www.wso2.org
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file exppaast in compliance with the License.
@@ -16,15 +16,8 @@
 #
 # Class: ppaas
 #
-# This class installs wso2 complex event processor
-#
-#
 # Actions:
-#   - Install wso2 complex event processor
-#
-# Requires:
-#
-# Sample Usage:
+#   - Install wso2 private paas
 #
 
 class ppaas (
@@ -42,13 +35,14 @@ class ppaas (
   $target             = '/mnt',
 ) inherits params {
 
-
   $deployment_code = 'ppaas'
   $carbon_version  = $version
   $service_code    = 'ppaas'
   $carbon_home     = "${target}/wso2${service_code}-${carbon_version}"
 
   $service_templates = [
+    'conf/user-mgt.xml',
+    'conf/tenant-mgt.xml',
     'conf/cloud-controller.xml',
     'conf/datasources/master-datasources.xml',
     'conf/datasources/ppaas-datasources.xml',
@@ -57,11 +51,6 @@ class ppaas (
     'conf/registry.xml',
     'conf/thrift-client-config.xml',
     'deployment/server/jaggeryapps/console/controllers/menu/menu.json'
-  ]
-
-  $common_templates = [
-    'conf/user-mgt.xml',
-    'conf/tenant-mgt.xml',
   ]
 
   tag($service_code)
@@ -96,19 +85,14 @@ class ppaas (
       target    => $carbon_home,
       directory => 'ppaas',
       require   => Deploy[$deployment_code];
-
-    $common_templates:
-      target     => $carbon_home,
-      directory  => "wso2base",
-      require    => Deploy[$deployment_code];
   }
 
   file { "/etc/init.d/wso2${service_code}":
-      ensure    => present,
-      owner     => 'root',
-      group     => 'root',
-      mode      => '0775',
-      content   => template("${deployment_code}/wso2${service_code}.erb"),
+    ensure    => present,
+    owner     => 'root',
+    group     => 'root',
+    mode      => '0775',
+    content   => template("${deployment_code}/wso2${service_code}.erb"),
   }
 
   file { "${carbon_home}/bin/wso2server.sh":
@@ -122,16 +106,16 @@ class ppaas (
   }
 
   service { "wso2${service_code}":
-      ensure     => running,
-      hasstatus  => true,
-      hasrestart => true,
-      enable     => true,
-      require    => [
-            Initialize[$deployment_code],
-            Deploy[$deployment_code],
-            Push_templates[$service_templates],
-            File["${carbon_home}/bin/wso2server.sh"],
-            File["/etc/init.d/wso2${service_code}"],
-      ]   
+    ensure     => running,
+    hasstatus  => true,
+    hasrestart => true,
+    enable     => true,
+    require    => [
+          Initialize[$deployment_code],
+          Deploy[$deployment_code],
+          Push_templates[$service_templates],
+          File["${carbon_home}/bin/wso2server.sh"],
+          File["/etc/init.d/wso2${service_code}"],
+    ]   
   }
 }

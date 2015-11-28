@@ -14,7 +14,7 @@
 #  limitations under the License.
 # ----------------------------------------------------------------------------
 #
-# Cleans the previous deployment. If the maintenance mode is set to true, this will only kill the running service.
+# Cleans the previous deployment.
 
 define ppaas::clean ($mode, $target) {
   if $mode == 'refresh' {
