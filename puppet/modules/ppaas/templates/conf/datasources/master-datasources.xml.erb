@@ -37,12 +37,12 @@
             </jndiConfig>
             <definition type="RDBMS">
                 <configuration>
-                    <url>jdbc:mysql://<%= @userstore_database['hostname'] %>:3306/<%= @userstore_database['database'] %>?autoReconnect=true</url>
-                    <username><%= @userstore_database['username'] %></username>
+                    <url><%= @userstore_database %>?autoReconnect=true</url>
+                    <username><%= @userstore_database_username %></username>
                     <%- if @securevault -%>
                     <password svns:secretAlias="Datasources.WSO2_USERSTORE_DB.Configuration.Password">password</password>
                     <%- else -%>
-                    <password><%= @userstore_database['password'] %></password>
+                    <password><%= @userstore_database_password %></password>
                     <%- end -%>
                     <driverClassName>com.mysql.jdbc.Driver</driverClassName>
                     <maxActive>150</maxActive>
@@ -63,12 +63,12 @@
             </jndiConfig>
             <definition type="RDBMS">
                 <configuration>
-                    <url>jdbc:mysql://<%= @registry_database['hostname'] %>:3306/dbPaasGovernance?autoReconnect=true</url>
-                    <username><%= @registry_database['username'] %></username>
+                    <url><%= @registry_database %>?autoReconnect=true</url>
+                    <username><%= @registry_database_username %></username>
                     <%- if @securevault -%>
                     <password svns:secretAlias="Datasources.WSO2_GOVERNANCE_DB.Configuration.Password">password</password>
                     <%- else -%>
-                    <password><%= @registry_database['password'] %></password>
+                    <password><%= @registry_database_password %></password>
                     <%- end -%>
                     <driverClassName>com.mysql.jdbc.Driver</driverClassName>
                     <maxActive>150</maxActive>
@@ -84,6 +84,5 @@
                 </configuration>
             </definition>
         </datasource>
-
 	</datasources>
 </datasources-configuration>

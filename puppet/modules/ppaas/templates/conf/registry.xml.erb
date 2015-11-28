@@ -40,7 +40,7 @@
         <readOnly>false</readOnly>
         <registryRoot>/</registryRoot>
         <enableCache>true</enableCache>
-        <cacheId><%= @registry_database['username'] %>@jdbc:mysql://<%= @registry_database['hostname'] %>:3306/dbPaasGovernance</cacheId>
+        <cacheId><%= @registry_database_username %>@<%= @registry_database %></cacheId>
     </remoteInstance>
     <mount path="/_system/governance" overwrite="virtual">
         <instanceId>governance</instanceId>
@@ -63,8 +63,7 @@
         <readOnly>false</readOnly>
         <registryRoot>/</registryRoot>
         <enableCache>true</enableCache>
-        <cacheId><%= @config_database['username'] %>@jdbc:mysql://<%= @config_database['hostname'] %>:3306/<%= @config_db %></cacheId>
-
+        <cacheId><%= @config_database_username %>@<%= @config_database %></cacheId>
     </remoteInstance>
     <mount path="/_system/config" overwrite="virtual">
         <instanceId>config</instanceId>

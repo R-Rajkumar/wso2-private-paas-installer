@@ -61,7 +61,7 @@
             <property name="jclouds.ec2.ami-query" value="owner-id=695677809456;state=available;image-type=machine"/>
             <property name="availabilityZone" value="<%= @aws_availablity_zone %>"/>
             <property name="securityGroupIds" value="<%= @aws_security_group_ids %>"/>
-            <property name="subnetId" value="<%= @aws_subnet_ids[0] %>"/>
+            <property name="subnetId" value="<%= @aws_subnet_id %>"/>
             <property name="autoAssignIp" value="true" />
             <property name="keyPair" value="<%= @aws_keypair %>"/>
         </iaasProvider>
