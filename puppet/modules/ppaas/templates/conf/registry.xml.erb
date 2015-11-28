@@ -31,6 +31,7 @@
 	<dataSource>jdbc/WSO2CarbonDB</dataSource>
     </dbConfig>
 
+    <%- if @registry_database -%>
     <dbConfig name="governance">
 	<dataSource>jdbc/governance</dataSource>
     </dbConfig>
@@ -46,6 +47,7 @@
         <instanceId>governance</instanceId>
         <targetPath>/_system/governance</targetPath>
     </mount>
+    <%- end -%>
     <!--
     <mount path="/_system/governance/dependencies" overwrite="true">
         <instanceId>governance</instanceId>
@@ -53,7 +55,7 @@
     </mount>
     -->
 
-     <%- database = @config_database -%>
+    <%- if @config_db -%>
     <dbConfig name="config">
       <dataSource>jdbc/<%= @config_db %></dataSource>
     </dbConfig>
@@ -69,6 +71,7 @@
         <instanceId>config</instanceId>
         <targetPath>/_system/config</targetPath>
     </mount>
+    <%- end -%>
 
    <!--<handler class="org.wso2.carbon.registry.extensions.handlers.SynapseRepositoryHandler">
         <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">

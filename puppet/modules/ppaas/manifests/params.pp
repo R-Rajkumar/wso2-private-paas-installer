@@ -38,6 +38,7 @@ class ppaas::params {
 #
 #  $mb_ip                = '192.168.18.103'
 #  $mb_port              = '5672'
+#  $mb_url		 = 'tcp://localhost:61616'
 #
 #  # MySQL server configuration details
 #  $mysql_server         = 'mysql.wso2.com'
@@ -46,24 +47,11 @@ class ppaas::params {
 #  $max_active           = '150'
 #  $max_wait             = '360000'
 #
-#  # Database details
-#  $registry_user        = 'registry'
-#  $registry_password    = 'ycJaCboyUo'
-#  $registry_database    = 'governance'
+#  $registry_database_user        = 'registry'
+#  $registry_database_password    = 'ycJaCboyUo'
+#  $registry_database    	  = 'governance'
 #
-#  $userstore_user       = 'userstore'
-#  $userstore_password   = 'sUAKn09o5J'
-#  $userstore_database   = 'userstore'
-#
-#  # Depsync settings
-#  $svn_user             = 'wso2'
-#  $svn_password         = 'wso2123'
-#
-#  #LDAP settings 
-#  $ldap_connection_uri      = 'ldap://localhost:10389'
-#  $bind_dn                  = 'uid=admin,ou=system'
-#  $bind_dn_password         = 'adminpassword'
-#  $user_search_base         = 'ou=system'
-#  $group_search_base        = 'ou=system'
-#  $sharedgroup_search_base  = 'ou=SharedGroups,dc=wso2,dc=org'
+#  $userstore_database_user       = 'userstore'
+#  $userstore_database_password   = 'sUAKn09o5J'
+#  $userstore_database   	  = 'userstore'
 }

@@ -21,15 +21,9 @@
 #
 
 class ppaas (
-  $ppaas_subdomain      = undef,
   $version            = '4.1.0',
   $offset             = 0,
-  $clustering_port     = 4000,
-  $config_db          = 'governance',
   $maintenance_mode   = true,
-  $depsync            = false,
-  $clustering         = false,
-  $members            = {},
   $owner              = 'root',
   $group              = 'root',
   $target             = '/mnt',
