@@ -15,26 +15,9 @@
 #  limitations under the License.
 # ----------------------------------------------------------------------------
 
-CURRENT_DIR=$(dirname $0)
-INSTALLER_PATH=`cd $CURRENT_DIR;pwd`
-SCRIPTS_PATH=${INSTALLER_PATH}/scripts
-PACKS_PATH=${INSTALLER_PATH}/packs
-PUPPET=`which puppet`
-PUPPETAPPLY="${PUPPET} apply"
-PUPPETAGENT="${PUPPET} agent"
-RUNPUPPETAPPLY="${PUPPETAPPLY}"
-RUNPUPPETAGENT="${PUPPETAGENT} -vt"
-PPAAS_HOST_IP="localhost"
-PPAAS_HOST_PORT=9443
-
-source ${SCRIPTS_PATH}/functions.sh
-
-echo "Starting WSO2 PPAAS..."
-${RUNPUPPETAPPLY} --modulepath=puppet/modules/ -e "include ppaas"
-
-echo -n "Waiting for wso2 private paas to become active"
-is_server_active ${PPAAS_HOST_IP} ${PPAAS_HOST_PORT}
-
-echo
-echo "Installation completed successfully"
-
+function is_server_active() {
+    until $(curl --output /dev/null --silent --head --fail -X GET -H "Content-Type: application/json" -k -u admin:admin https://$1:$2/api/init); do
+      printf '.'
+      sleep 5
+    done
+}
