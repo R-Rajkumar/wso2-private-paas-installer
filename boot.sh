@@ -1,58 +1,40 @@
 #!/bin/bash
-SCRIPTS_PATH=/home/ubuntu/scripts
-PACKS_PATH=/home/ubuntu/packs
+# ----------------------------------------------------------------------------
+#  Copyright 2005-2013 WSO2, Inc. http://www.wso2.org
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+# ----------------------------------------------------------------------------
+
+CURRENT_DIR=$(dirname $0)
+INSTALLER_PATH=`cd $CURRENT_DIR;pwd`
+SCRIPTS_PATH=${INSTALLER_PATH}/scripts
+PACKS_PATH=${INSTALLER_PATH}/packs
+PUPPET=`which puppet`
+PUPPETAPPLY="${PUPPET} apply"
+PUPPETAGENT="${PUPPET} agent"
+RUNPUPPETAPPLY="${PUPPETAPPLY}"
+RUNPUPPETAGENT="${PUPPETAGENT} -vt"
 HOST_IP="localhost"
 HOST_PORT=9443
 
-echo "Initializing WSO2 PPaaS 4.1.0 Instance..."
+echo "Starting WSO2 PPAAS..."
+${RUNPUPPETAPPLY} --modulepath=puppet/modules/ -e "include ppaas"
 
-mkdir -p /tmp/payload
-wget http://instance-data/latest/user-data -O /tmp/payload/launch-params
-
-# Add a trailing comma to get the last key val pair
-echo "," >> /tmp/payload/launch-params
-
-echo "Exporting user data as environmental variables..."
-pushd /tmp/payload
-cat launch-params | sed -n 1'p' | tr ',' '\n' | while read word; do
-   if [[ ! -z "$word" ]] ; then
-      echo "Property line = $word"
-      KEY=`echo $word | cut -d "=" -f 1`
-      VAL=`echo $word | cut -d "=" -f 2`   
-      echo "KEY=$KEY VAL=$VAL"
-      echo "export $KEY=$VAL" >> /tmp/payload/set-env.sh
-   fi
-done
-popd
-
-if [[ $1 == "clean" ]] ; then
-
-   # clean /opt/ dir
-   sudo rm -rf /opt/wso2ppaas-4.1.0/
-   sudo rm -rf /opt/wso2das-3.0.0/
-   sudo rm -rf /opt/apache-stratos-nginx-extension-4.1.4/   
-   sudo rm -rf /opt/apache-activemq-5.12.0/
-
-   unzip -q $PACKS_PATH/wso2ppaas-4.1.0.zip -d /opt
-   unzip -q $PACKS_PATH/wso2das-3.0.0.zip -d /opt
-   unzip -q $PACKS_PATH/apache-stratos-nginx-extension-4.1.4.zip -d /opt   
-   tar -zxf $PACKS_PATH/apache-activemq-5.12.0-bin.tar.gz -C /opt   
-fi
-
-echo "Starting ActiveMQ..."
-/opt/apache-activemq-5.12.0/bin/activemq start
-
-echo "Waiting for servers to be active..."
-sleep 1m
-response=$(curl -X GET -H "Content-Type: application/json" --write-out %{http_code} --silent --output /dev/null -k -u admin:admin https://${HOST_IP}:${HOST_PORT}/api/users)
-echo "Response received from Stratos API: $response"
-
-while [ $response -ne 200  ] ; do
-   response=$(curl -X GET -H "Content-Type: application/json" --write-out %{http_code} --silent --output /dev/null -k -u admin:admin https://${HOST_IP}:${HOST_PORT}/api/users)
-   echo "Response received from Stratos API: $response"
-   echo "Waiting for servers to be active..."
-   sleep 10   
+echo -n "Waiting for wso2 private paas to become active"
+until $(curl --output /dev/null --silent --head --fail -X GET -H "Content-Type: application/json" -k -u admin:admin https://${HOST_IP}:${HOST_PORT}/api/init); do
+    printf '.'
+    sleep 5
 done
 
-echo "End of init script"
+echo "Installation completed successfully"
 
