@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/echo Warning: this library should be sourced!
 # ----------------------------------------------------------------------------
 #  Copyright 2005-2015 WSO2, Inc. http://www.wso2.org
 #

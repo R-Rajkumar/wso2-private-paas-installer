@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/echo Warning: this library should be sourced!
 # ----------------------------------------------------------------------------
 #  Copyright 2005-2015 WSO2, Inc. http://www.wso2.org
 #
@@ -44,4 +44,11 @@ function debug_log() {
 function info_log() { 
     datestring=`date +'%Y-%m-%d %H:%M:%S'`
     echo -e "[${datestring}] INFO - $*"; 
+}
+
+# action : log without new line
+# usage  : log ${string}
+function info_log_n() { 
+    datestring=`date +'%Y-%m-%d %H:%M:%S'`
+    echo -e -n "[${datestring}] INFO - $*"; 
 }

@@ -23,12 +23,14 @@ source ${SCRIPTS_PATH}/functions.sh
 info_log "Private paas installation started"
 debug_log "Executing $0"
 
+info_log_n ""
+
 # firing a puppet apply command to install wso2 private paas
 ${RUN_PUPPET_APPLY} --modulepath=${PUPPET_MODULES_PATH} -e "include ppaas"
 
 # waiting for wso2 private paas to become active
 datestring=`date +'%Y-%m-%d %H:%M:%S'`
-echo -n "[${datestring}] INFO - Waiting for private paas server to become active"
+info_log_n "Waiting for private paas server to become active"
 wait_until_ppaas_server_is_ready ${PPAAS_HOST_IP} ${PPAAS_HOST_PORT}
 
 echo ""
