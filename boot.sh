@@ -18,59 +18,55 @@
 set -o errexit
 set -o nounset
 
+# installation constants
 CURRENT_DIR=$(dirname $0)
 INSTALLER_PATH=`cd $CURRENT_DIR;pwd`
 SCRIPTS_PATH=${INSTALLER_PATH}/scripts
 PACKS_PATH=${INSTALLER_PATH}/packs
-PUPPET=`which puppet`
-PUPPETAPPLY="${PUPPET} apply"
-PUPPETAGENT="${PUPPET} agent"
-RUNPUPPETAPPLY="${PUPPETAPPLY}"
-RUNPUPPETAGENT="${PUPPETAGENT} -vt"
-PPAAS_HOST_IP="localhost"
-PPAAS_HOST_PORT=9443
 
+# exporting installation constants as environment variables
+export INSTALLER_PATH
+export SCRIPTS_PATH
+export PACKS_PATH
+
+source ${SCRIPTS_PATH}/config.sh
 source ${SCRIPTS_PATH}/functions.sh
 
 # parsing command line arguments
-while [[ $# > 1 ]]
+while [[ $# > 0 ]]
 do
 key="$1"
-
 case $key in
     -h|--help)
-    display_help
-    exit 0
+     display_help
+     exit 0
+    ;;
+    -d|--debug)
+     DEBUG_LOG=1
     ;;
     -p|--profile)
-    EXTENSION="$2"
-    shift
+     PROFILE="$2"
+     shift
     ;;
     -c|--clean)
-    CLEAN="$2"
-    ;;
-    -l|--lib)
-    LIBPATH="$2"
-    shift
+     CLEAN=YES
     ;;
     --default)
-    DEFAULT=YES
+     DEFAULT=YES
     ;;
     *)
-          # unknown option
+     # unknown argument ; ignore it
     ;;
 esac
 shift
 done
 
-echo FILE EXTENSION  = "${EXTENSION}"
-echo SEARCH PATH     = "${SEARCHPATH}"
+# exporting DEBUG_LOG as environment variable
+export DEBUG_LOG
 
-echo "Starting WSO2 PPAAS..."
-${RUNPUPPETAPPLY} --modulepath=puppet/modules/ -e "include ppaas"
+debug_log "Raaaaaj"
 
-echo -n "Waiting for wso2 private paas to become active"
-is_ppaas_server_active ${PPAAS_HOST_IP} ${PPAAS_HOST_PORT}
-
-echo -e "\nInstallation completed successfully"
-
+if [ "$PROFILE" == "ppaas" ] && {
+   # starting wso2 private paas
+   $SCRIPTS_PATH/install_ppaas.sh
+}

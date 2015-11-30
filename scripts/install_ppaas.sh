@@ -15,23 +15,18 @@
 #  limitations under the License.
 # ----------------------------------------------------------------------------
 
-# action : checking whether the stratos server is ready to handle requests
-# usage  : is_server_active ${stratos_ip} ${stratos_port}
-function is_ppaas_server_active() {
-    until $(curl --output /dev/null --silent --head --fail -X GET -H "Content-Type: application/json" -k -u admin:admin https://$1:$2/api/init); do
-      printf '.'
-      sleep 5
-    done
-}
+# action : install wso2 private paas using puppet apply or master/agent
 
-# action : display detailed usages of the script
-# usage  : display_help
-function display_help() {
-    echo "Help is on the way..."
-}
+echo "INFO : Starting WSO2 PPAAS installation..."
 
-# action : log if DEBUG_LOG is set to 1
-# usage  : debug ${string}
-function debug_log() { 
-    [ $DEBUG_LOG -eq 1 ] && echo "DEBUG : $*"; 
-}
+source ${SCRIPTS_PATH}/config.sh
+source ${SCRIPTS_PATH}/functions.sh
+
+# firing a puppet apply command to install wso2 private paas
+${RUN_PUPPET_APPLY} --modulepath=${PUPPET_MODULES_PATH} -e "include ppaas"
+
+# waiting for wso2 private paas to become active
+echo -n "INFO : Waiting for wso2 private paas to become active"
+is_ppaas_server_active ${PPAAS_HOST_IP} ${PPAAS_HOST_PORT}
+
+echo -e "\nINFO : WSO2 Private PaaS installation completed successfully"

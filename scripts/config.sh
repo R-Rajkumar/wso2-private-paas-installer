@@ -15,23 +15,15 @@
 #  limitations under the License.
 # ----------------------------------------------------------------------------
 
-# action : checking whether the stratos server is ready to handle requests
-# usage  : is_server_active ${stratos_ip} ${stratos_port}
-function is_ppaas_server_active() {
-    until $(curl --output /dev/null --silent --head --fail -X GET -H "Content-Type: application/json" -k -u admin:admin https://$1:$2/api/init); do
-      printf '.'
-      sleep 5
-    done
-}
+# commands
+PUPPET=`which puppet`
+PUPPET_APPLY="${PUPPET} apply"
+PUPPET_AGENT="${PUPPET} agent"
+RUN_PUPPET_APPLY="${PUPPET_APPLY}"
+RUN_PUPPET_AGENT="${PUPPET_AGENT} -vt"
+PUPPET_MODULES_PATH=${INSTALLER_PATH}/puppet/modules
 
-# action : display detailed usages of the script
-# usage  : display_help
-function display_help() {
-    echo "Help is on the way..."
-}
+# ppaas constants
+PPAAS_HOST_IP="localhost"
+PPAAS_HOST_PORT=9443
 
-# action : log if DEBUG_LOG is set to 1
-# usage  : debug ${string}
-function debug_log() { 
-    [ $DEBUG_LOG -eq 1 ] && echo "DEBUG : $*"; 
-}
