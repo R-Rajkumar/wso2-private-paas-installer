@@ -70,7 +70,7 @@ export DEBUG_LOG
 
 debug_log "Positional parameters [--profile] ${PROFILE} [--debug] ${DEBUG_LOG} [--clean] ${CLEAN}"
 
-[ "$PROFILE" == "ppaas" ] && {
+[ "$PROFILE" = "ppaas" ] && [ "$CLEAN" = false ] && {
    # starting wso2 private paas
    $SCRIPTS_PATH/install_ppaas.sh
 }
