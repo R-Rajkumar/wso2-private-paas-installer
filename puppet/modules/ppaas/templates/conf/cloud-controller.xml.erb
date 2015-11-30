@@ -43,49 +43,185 @@
     <iaasProviders>
 	<%- if @openstack_iaas_enabled == true -%>
 	<iaasProvider type="openstack" name="Openstack">
+	    <%- if @openstack_class -%>
+            <className><%= @openstack_class %></className>
+ 	    <% else %> 
             <className>org.apache.stratos.cloud.controller.iaases.openstack.OpenstackIaas</className>
+	    <%- end -%>
+
+	    <%- if @openstack_provider -%>
+            <provider><%= @openstack_provider %></provider>
+ 	    <% else %> 
             <provider>openstack-nova</provider>
+	    <%- end -%>
+
+	    <%- if @openstack_identity -%>
+            <identity svns:secretAlias="cloud.controller.openstack.identity"><%= @openstack_identity %></identity>
+ 	    <% else %> 
             <identity svns:secretAlias="cloud.controller.openstack.identity">project:username</identity>
+	    <%- end -%>
+
+	    <%- if @openstack_credential -%>
+            <credential svns:secretAlias="cloud.controller.openstack.credential"><%= @openstack_credential %></credential>
+ 	    <% else %> 
             <credential svns:secretAlias="cloud.controller.openstack.credential">credential</credential>
-            <property name="jclouds.endpoint" value="http://192.168.16.99:5000/v2.0" />
+	    <%- end -%>
+
+	    <%- if @openstack_jclouds_endpoint -%>
+	    <property name="jclouds.endpoint" value="<%= @openstack_jclouds_endpoint %>" />
+ 	    <% else %> 
+	    <property name="jclouds.endpoint" value="http://192.168.16.99:5000/v2.0" />
+	    <%- end -%>
+
+	    <%- if @openstack_jclouds_openstack_nova_auto_create_floating_ips -%>
+            <property name="jclouds.openstack-nova.auto-create-floating-ips" value="<%= @openstack_jclouds_openstack_nova_auto_create_floating_ips %>"/>
+ 	    <% else %> 
             <property name="jclouds.openstack-nova.auto-create-floating-ips" value="false"/>
+	    <%- end -%>
+
+  	    <%- if @openstack_jclouds_api_version -%>
+            <property name="jclouds.api-version" value="<%= @openstack_jclouds_api_version %>" />
+ 	    <% else %> 
             <property name="jclouds.api-version" value="2.0/" />
+	    <%- end -%>      
+
+	    <%- if @openstack_networking_provider -%>
+            <property name="openstack.networking.provider" value="<%= @openstack_networking_provider %>" />
+ 	    <% else %> 
             <property name="openstack.networking.provider" value="nova" />
+	    <%- end -%>    
+
+	    <%- if @openstack_keyPair -%>
+            <property name="keyPair" value="<%= @openstack_keyPair %>" />
+ 	    <% else %> 
             <property name="keyPair" value="keypair-name" />
+	    <%- end -%>
+            
+	    <%- if @openstack_security_groups -%>
+            <property name="securityGroups" value="<%= @openstack_security_groups %>" />
+ 	    <% else %> 
             <property name="securityGroups" value="default" />
+	    <%- end -%>       
         </iaasProvider>
 	<%- end -%>
 
         <%- if @ec2_iaas_enabled == true -%>
         <iaasProvider type="ec2" name="Amazon EC2">
+	    <%- if @ec2_class -%>
+            <className><%= @ec2_class %></className>
+ 	    <% else %> 
             <className>org.apache.stratos.cloud.controller.iaases.ec2.EC2Iaas</className>
+	    <%- end -%>
+
+	    <%- if @ec2_provider -%>
+            <provider><%= @ec2_provider %></provider>
+ 	    <% else %> 
             <provider>aws-ec2</provider>
+	    <%- end -%>
+
+	    <%- if @ec2_identity -%>
+            <identity svns:secretAlias="cloud.controller.ec2.identity"><%= @ec2_identity %></identity>
+ 	    <% else %> 
             <identity svns:secretAlias="cloud.controller.ec2.identity">identity</identity>
-            <credential svns:secretAlias="cloud.controller.ec2.credential">credential</credential>
-            <property name="jclouds.ec2.ami-query" value="owner-id=owner-id;state=available;image-type=machine"/>
+	    <%- end -%>
+
+	    <%- if @ec2_credential -%>
+	    <credential svns:secretAlias="cloud.controller.ec2.credential"><%= @ec2_credential %></credential>
+ 	    <% else %> 
+	    <credential svns:secretAlias="cloud.controller.ec2.credential">credential</credential>
+	    <%- end -%>
+
+	    <%- if @ec2_jclouds_ec2_ami_query -%>
+            <property name="jclouds.ec2.ami-query" value="<%= @ec2_jclouds_ec2_ami_query %>" />
+ 	    <% else %> 
+            <property name="jclouds.ec2.ami-query" value="owner-id=owner-id;state=available;image-type=machine" />
+	    <%- end -%>
+            
+	    <%- if @ec2_availability_Zone -%>
+            <property name="availabilityZone" value="<%= @ec2_availability_Zone %>" />
+ 	    <% else %> 
             <property name="availabilityZone" value="ap-southeast-1b"/>
+	    <%- end -%>
+
+ 	    <%- if @ec2_security_groups -%>
+            <property name="securityGroups" value="<%= @ec2_security_groups %>" />
+ 	    <% else %> 
             <property name="securityGroups" value="default"/>
+	    <%- end -%>
+
+ 	    <%- if @ec2_auto_assign_ip -%>
+            <property name="autoAssignIp" value="<%= @ec2_auto_assign_ip %>" />
+ 	    <% else %> 
             <property name="autoAssignIp" value="true" />
+	    <%- end -%>
+
+ 	    <%- if @ec2_keyPair -%>
+            <property name="keyPair" value="<%= @ec2_keyPair %>"/>
+ 	    <% else %> 
             <property name="keyPair" value="keypair-name"/>
+	    <%- end -%>
         </iaasProvider>
         <%- end -%>
 
         <%- if @kubernetes_iaas_enabled == true -%>
         <iaasProvider type="kubernetes" name="Kubernetes">
+	    <%- if @kubernetes_class -%>
+            <className><%= @kubernetes_class %></className>
+ 	    <% else %> 
             <className>org.apache.stratos.cloud.controller.iaases.kubernetes.KubernetesIaas</className>
+	    <%- end -%>
+
+	    <%- if @kubernetes_provider -%>
+            <provider><%= @kubernetes_provider %></provider>
+ 	    <% else %> 
             <provider>kubernetes</provider>
+	    <%- end -%>
+
+	    <%- if @kubernetes_identity -%>
+            <identity svns:secretAlias="cloud.controller.kubernetes.identity"><%= @kubernetes_identity %></identity>
+ 	    <% else %> 
             <identity svns:secretAlias="cloud.controller.kubernetes.identity">identity</identity>
+	    <%- end -%>
+
+	    <%- if @kubernetes_credential -%>
+            <credential svns:secretAlias="cloud.controller.kubernetes.credential"><%= @kubernetes_credential %></credential>
+ 	    <% else %> 
             <credential svns:secretAlias="cloud.controller.kubernetes.credential">credential</credential>
+	    <%- end -%>
         </iaasProvider>
         <%- end -%>
 
         <%- if @mock_iaas_enabled == true -%>
         <iaasProvider type="mock" name="Mock">
+	    <%- if @mock_class -%>
+	    <className><%= @mock_class %></className>
+ 	    <% else %> 
             <className>org.apache.stratos.cloud.controller.iaases.mock.MockIaas</className>
+	    <%- end -%>
+
+	    <%- if @mock_provider -%>
+            <provider><%= @mock_provider %></provider>
+ 	    <% else %> 
             <provider>mock</provider>
+	    <%- end -%>
+
+	    <%- if @mock_identity -%>
+            <identity svns:secretAlias="cloud.controller.mock.identity"><%= @mock_identity %></identity>
+ 	    <% else %> 
             <identity svns:secretAlias="cloud.controller.mock.identity">identity</identity>
+	    <%- end -%>
+
+	    <%- if @mock_credential -%>
+            <credential svns:secretAlias="cloud.controller.mock.credential"><%= @mock_credential %></credential>
+ 	    <% else %> 
             <credential svns:secretAlias="cloud.controller.mock.credential">credential</credential>
-            <property name="api.endpoint" value="https://localhost:9443/mock-iaas/api"/>
+	    <%- end -%>
+
+ 	    <%- if @mock_api_endpoint -%>
+            <property name="api.endpoint" value="<%= @mock_api_endpoint %>" />
+ 	    <% else %> 
+            <property name="api.endpoint" value="https://localhost:9443/mock-iaas/api" />
+	    <%- end -%> 
         </iaasProvider>
         <%- end -%>
     </iaasProviders>
