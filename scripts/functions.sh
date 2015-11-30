@@ -17,7 +17,7 @@
 
 # action : checking whether the stratos server is ready to handle requests
 # usage  : is_server_active ${stratos_ip} ${stratos_port}
-function is_ppaas_server_active() {
+function wait_until_ppaas_server_is_ready() {
     until $(curl --output /dev/null --silent --head --fail -X GET -H "Content-Type: application/json" -k -u admin:admin https://$1:$2/api/init); do
       printf '.'
       sleep 5
@@ -27,11 +27,21 @@ function is_ppaas_server_active() {
 # action : display detailed usages of the script
 # usage  : display_help
 function display_help() {
-    echo "Help is on the way..."
+    echo "Sorry, but no help"
 }
 
 # action : log if DEBUG_LOG is set to 1
 # usage  : debug ${string}
 function debug_log() { 
-    [ $DEBUG_LOG -eq 1 ] && echo "DEBUG : $*"; 
+    if [ "$DEBUG_LOG" = true ]; then 
+       datestring=`date +'%Y-%m-%d %H:%M:%S'`
+       echo -e "[${datestring}] DEBUG - $*"; 
+    fi
+}
+
+# action : log
+# usage  : log ${string}
+function info_log() { 
+    datestring=`date +'%Y-%m-%d %H:%M:%S'`
+    echo -e "[${datestring}] INFO - $*"; 
 }

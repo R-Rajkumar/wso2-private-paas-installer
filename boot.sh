@@ -24,6 +24,11 @@ INSTALLER_PATH=`cd $CURRENT_DIR;pwd`
 SCRIPTS_PATH=${INSTALLER_PATH}/scripts
 PACKS_PATH=${INSTALLER_PATH}/packs
 
+# installation variables
+DEBUG_LOG=false
+PROFILE="default"
+CLEAN=false
+
 # exporting installation constants as environment variables
 export INSTALLER_PATH
 export SCRIPTS_PATH
@@ -31,6 +36,8 @@ export PACKS_PATH
 
 source ${SCRIPTS_PATH}/config.sh
 source ${SCRIPTS_PATH}/functions.sh
+
+info_log "Installation started"
 
 # parsing command line arguments
 while [[ $# > 0 ]]
@@ -42,17 +49,14 @@ case $key in
      exit 0
     ;;
     -d|--debug)
-     DEBUG_LOG=1
+     DEBUG_LOG=true
     ;;
     -p|--profile)
      PROFILE="$2"
      shift
     ;;
     -c|--clean)
-     CLEAN=YES
-    ;;
-    --default)
-     DEFAULT=YES
+     CLEAN=true
     ;;
     *)
      # unknown argument ; ignore it
@@ -64,9 +68,11 @@ done
 # exporting DEBUG_LOG as environment variable
 export DEBUG_LOG
 
-debug_log "Raaaaaj"
+debug_log "Positional parameters [--profile] ${PROFILE} [--debug] ${DEBUG_LOG} [--clean] ${CLEAN}"
 
-if [ "$PROFILE" == "ppaas" ] && {
+[ "$PROFILE" == "ppaas" ] && {
    # starting wso2 private paas
    $SCRIPTS_PATH/install_ppaas.sh
 }
+
+info_log "Installation completed successfully"

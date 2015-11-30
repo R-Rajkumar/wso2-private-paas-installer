@@ -17,16 +17,20 @@
 
 # action : install wso2 private paas using puppet apply or master/agent
 
-echo "INFO : Starting WSO2 PPAAS installation..."
-
 source ${SCRIPTS_PATH}/config.sh
 source ${SCRIPTS_PATH}/functions.sh
+
+info_log "Private paas installation started"
+debug_log "Executing $0"
 
 # firing a puppet apply command to install wso2 private paas
 ${RUN_PUPPET_APPLY} --modulepath=${PUPPET_MODULES_PATH} -e "include ppaas"
 
 # waiting for wso2 private paas to become active
-echo -n "INFO : Waiting for wso2 private paas to become active"
-is_ppaas_server_active ${PPAAS_HOST_IP} ${PPAAS_HOST_PORT}
+datestring=`date +'%Y-%m-%d %H:%M:%S'`
+echo -n "[${datestring}] INFO - Waiting for private paas server to become active"
+wait_until_ppaas_server_is_ready ${PPAAS_HOST_IP} ${PPAAS_HOST_PORT}
 
-echo -e "\nINFO : WSO2 Private PaaS installation completed successfully"
+echo ""
+datestring=`date +'%Y-%m-%d %H:%M:%S'`
+info_log "Private paas installation completed successfully"
