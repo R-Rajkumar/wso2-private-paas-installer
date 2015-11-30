@@ -1,6 +1,6 @@
 #!/bin/bash
 # ----------------------------------------------------------------------------
-#  Copyright 2005-2013 WSO2, Inc. http://www.wso2.org
+#  Copyright 2005-2015 WSO2, Inc. http://www.wso2.org
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -14,6 +14,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ----------------------------------------------------------------------------
+
+set -o errexit
+set -o nounset
 
 CURRENT_DIR=$(dirname $0)
 INSTALLER_PATH=`cd $CURRENT_DIR;pwd`
@@ -29,12 +32,45 @@ PPAAS_HOST_PORT=9443
 
 source ${SCRIPTS_PATH}/functions.sh
 
+# parsing command line arguments
+while [[ $# > 1 ]]
+do
+key="$1"
+
+case $key in
+    -h|--help)
+    display_help
+    exit 0
+    ;;
+    -p|--profile)
+    EXTENSION="$2"
+    shift
+    ;;
+    -c|--clean)
+    CLEAN="$2"
+    ;;
+    -l|--lib)
+    LIBPATH="$2"
+    shift
+    ;;
+    --default)
+    DEFAULT=YES
+    ;;
+    *)
+          # unknown option
+    ;;
+esac
+shift
+done
+
+echo FILE EXTENSION  = "${EXTENSION}"
+echo SEARCH PATH     = "${SEARCHPATH}"
+
 echo "Starting WSO2 PPAAS..."
 ${RUNPUPPETAPPLY} --modulepath=puppet/modules/ -e "include ppaas"
 
 echo -n "Waiting for wso2 private paas to become active"
-is_server_active ${PPAAS_HOST_IP} ${PPAAS_HOST_PORT}
+is_ppaas_server_active ${PPAAS_HOST_IP} ${PPAAS_HOST_PORT}
 
-echo
-echo "Installation completed successfully"
+echo -e "\nInstallation completed successfully"
 

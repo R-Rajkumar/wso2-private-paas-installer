@@ -1,6 +1,6 @@
 #!/bin/bash
 # ----------------------------------------------------------------------------
-#  Copyright 2005-2013 WSO2, Inc. http://www.wso2.org
+#  Copyright 2005-2015 WSO2, Inc. http://www.wso2.org
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -15,9 +15,17 @@
 #  limitations under the License.
 # ----------------------------------------------------------------------------
 
-function is_server_active() {
+
+# checking whether the stratos server is ready to handle requests
+# usage : 
+#         is_server_active <stratos_ip> <stratos_port>
+function is_ppaas_server_active() {
     until $(curl --output /dev/null --silent --head --fail -X GET -H "Content-Type: application/json" -k -u admin:admin https://$1:$2/api/init); do
       printf '.'
       sleep 5
     done
+}
+
+function display_help() {
+    echo "Help is on the way..."
 }
