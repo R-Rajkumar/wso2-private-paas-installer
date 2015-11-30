@@ -41,7 +41,8 @@
         is not necessary [0..1]. But you can use this section to avoid specifying
         same property over and over again. -->
     <iaasProviders>
-        <!-- iaasProvider type="openstack" name="Openstack">
+	<%- if @openstack_iaas_enabled == true -%>
+	<iaasProvider type="openstack" name="Openstack">
             <className>org.apache.stratos.cloud.controller.iaases.openstack.OpenstackIaas</className>
             <provider>openstack-nova</provider>
             <identity svns:secretAlias="cloud.controller.openstack.identity">project:username</identity>
@@ -52,8 +53,11 @@
             <property name="openstack.networking.provider" value="nova" />
             <property name="keyPair" value="keypair-name" />
             <property name="securityGroups" value="default" />
-        </iaasProvider -->
-        <!-- iaasProvider type="ec2" name="Amazon EC2">
+        </iaasProvider>
+	<%- end -%>
+
+        <%- if @ec2_iaas_enabled == true -%>
+        <iaasProvider type="ec2" name="Amazon EC2">
             <className>org.apache.stratos.cloud.controller.iaases.ec2.EC2Iaas</className>
             <provider>aws-ec2</provider>
             <identity svns:secretAlias="cloud.controller.ec2.identity">identity</identity>
@@ -63,13 +67,19 @@
             <property name="securityGroups" value="default"/>
             <property name="autoAssignIp" value="true" />
             <property name="keyPair" value="keypair-name"/>
-        </iaasProvider -->
+        </iaasProvider>
+        <%- end -%>
+
+        <%- if @kubernetes_iaas_enabled == true -%>
         <iaasProvider type="kubernetes" name="Kubernetes">
             <className>org.apache.stratos.cloud.controller.iaases.kubernetes.KubernetesIaas</className>
             <provider>kubernetes</provider>
             <identity svns:secretAlias="cloud.controller.kubernetes.identity">identity</identity>
             <credential svns:secretAlias="cloud.controller.kubernetes.credential">credential</credential>
         </iaasProvider>
+        <%- end -%>
+
+        <%- if @mock_iaas_enabled == true -%>
         <iaasProvider type="mock" name="Mock">
             <className>org.apache.stratos.cloud.controller.iaases.mock.MockIaas</className>
             <provider>mock</provider>
@@ -77,5 +87,6 @@
             <credential svns:secretAlias="cloud.controller.mock.credential">credential</credential>
             <property name="api.endpoint" value="https://localhost:9443/mock-iaas/api"/>
         </iaasProvider>
+        <%- end -%>
     </iaasProviders>
 </cloudController>
