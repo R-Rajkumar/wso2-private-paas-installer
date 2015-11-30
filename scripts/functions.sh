@@ -16,9 +16,8 @@
 # ----------------------------------------------------------------------------
 
 
-# checking whether the stratos server is ready to handle requests
-# usage : 
-#         is_server_active <stratos_ip> <stratos_port>
+# action : checking whether the stratos server is ready to handle requests
+# usage  : is_server_active ${stratos_ip} ${stratos_port}
 function is_ppaas_server_active() {
     until $(curl --output /dev/null --silent --head --fail -X GET -H "Content-Type: application/json" -k -u admin:admin https://$1:$2/api/init); do
       printf '.'
@@ -26,6 +25,10 @@ function is_ppaas_server_active() {
     done
 }
 
+# action : display detailed usages of the script
+# usage  : display_help
 function display_help() {
     echo "Help is on the way..."
 }
+
+
