@@ -87,7 +87,7 @@
                     <url><%= @ppaas_config_db %>?autoReconnect=true</url>
                     <username><%= @ppaas_config_db_username %></username>
                     <%- if @securevault -%>
-                    <password svns:secretAlias="Datasources.WSO2_GOVERNANCE_DB.Configuration.Password">password</password>
+                    <password svns:secretAlias="Datasources.WSO2_CONFIG_DB.Configuration.Password">password</password>
                     <%- else -%>
                     <password><%= @ppaas_config_db_password %></password>
                     <%- end -%>
@@ -135,7 +135,7 @@
                     <url><%= @user_db %>?autoReconnect=true</url>
                     <username><%= @user_db_username %></username>
                     <%- if @securevault -%>
-                    <password svns:secretAlias="Datasources.WSO2_GOVERNANCE_DB.Configuration.Password">password</password>
+                    <password svns:secretAlias="Datasources.WSO2_USER_DB.Configuration.Password">password</password>
                     <%- else -%>
                     <password><%= @user_db_password %></password>
                     <%- end -%>
