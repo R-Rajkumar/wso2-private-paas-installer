@@ -56,10 +56,10 @@
         </cep>
         <das>
             <node id="node-01">
-		<%- if @das_stats_publisher_enabled == false -%>
-                <statsPublisherEnabled>false</statsPublisherEnabled>
-		<% else %> 
+		<%- if @das_stats_publisher_enabled == true -%>
                 <statsPublisherEnabled>true</statsPublisherEnabled>
+		<% else %> 
+                <statsPublisherEnabled>false</statsPublisherEnabled>
 		<%- end -%>
 		<%- if @das_username -%>
                 <username><%= @das_username %></username>
