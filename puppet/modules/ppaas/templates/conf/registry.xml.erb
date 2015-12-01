@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-
 <!--
-  ~ Copyright 2005-2009 WSO2, Inc. (http://wso2.com)
+  ~ Copyright 2005-2015 WSO2, Inc. (http://wso2.com)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,6 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+
 <wso2registry>
 
     <!--
@@ -28,48 +28,42 @@
     <registryRoot>/</registryRoot>
 
     <dbConfig name="wso2registry">
-	<dataSource>jdbc/WSO2CarbonDB</dataSource>
+        <dataSource>jdbc/WSO2CarbonDB</dataSource>
     </dbConfig>
 
-    <%- if @registry_database -%>
+    <%- if @gov_db -%>
     <dbConfig name="governance">
-	<dataSource>jdbc/governance</dataSource>
+	<dataSource><%= @gov_db_data_source %></dataSource>
     </dbConfig>
-    <remoteInstance url="https://registryernance.cloud-test.wso2.com">
+    <remoteInstance url="<%= @gov_db_remote_instance_url %>">
         <id>governance</id>
         <dbConfig>governance</dbConfig>
         <readOnly>false</readOnly>
         <registryRoot>/</registryRoot>
         <enableCache>true</enableCache>
-        <cacheId><%= @registry_database_username %>@<%= @registry_database %></cacheId>
+        <cacheId><%= @gov_db_username %>@<%= @gov_db %></cacheId>
     </remoteInstance>
     <mount path="/_system/governance" overwrite="virtual">
         <instanceId>governance</instanceId>
         <targetPath>/_system/governance</targetPath>
     </mount>
     <%- end -%>
-    <!--
-    <mount path="/_system/governance/dependencies" overwrite="true">
-        <instanceId>governance</instanceId>
-        <targetPath>/_system/governance/dependencies/${stage}</targetPath>
-    </mount>
-    -->
 
-    <%- if @config_db -%>
+    <%- if @ppaas_config_db -%>
     <dbConfig name="config">
-      <dataSource>jdbc/<%= @config_db %></dataSource>
+      <dataSource><%= @ppaas_config_db_data_source %></dataSource>
     </dbConfig>
-    <remoteInstance url="https://registryernance.cloud-test.wso2.com">
+    <remoteInstance url="<%= @ppaas_config_db_remote_instance_url %>">
         <id>config</id>
         <dbConfig>config</dbConfig>
         <readOnly>false</readOnly>
         <registryRoot>/</registryRoot>
         <enableCache>true</enableCache>
-        <cacheId><%= @config_database_username %>@<%= @config_database %></cacheId>
+        <cacheId><%= @ppaas_config_db_username %>@<%= @ppaas_config_db %></cacheId>
     </remoteInstance>
-    <mount path="/_system/config" overwrite="virtual">
+    <mount path="/_system/config/ppaas" overwrite="virtual">
         <instanceId>config</instanceId>
-        <targetPath>/_system/config</targetPath>
+        <targetPath>/_system/config/ppaas</targetPath>
     </mount>
     <%- end -%>
 
@@ -128,15 +122,15 @@
         <targetPath>/_system/nodes</targetPath>
     </mount-->
 
-
+    
     <versionResourcesOnChange>false</versionResourcesOnChange>
 
     <!-- NOTE: You can edit the options under "StaticConfiguration" only before the
      startup. -->
     <staticConfiguration>
         <versioningProperties>true</versioningProperties>
-        <versioningComments>false</versioningComments>
-        <versioningTags>false</versioningTags>
-        <versioningRatings>false</versioningRatings>
+        <versioningComments>true</versioningComments>
+        <versioningTags>true</versioningTags>
+        <versioningRatings>true</versioningRatings>
     </staticConfiguration>
 </wso2registry>
