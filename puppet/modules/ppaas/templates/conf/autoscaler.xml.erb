@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+       Licensed to the Apache Software Foundation (ASF) under one
+       or more contributor license agreements.  See the NOTICE file
+       distributed with this work for additional information
+       regarding copyright ownership.  The ASF licenses this file
+       to you under the Apache License, Version 2.0 (the
+       "License"); you may not use this file except in compliance
+       with the License.  You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing,
+       software distributed under the License is distributed on an
+       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+       KIND, either express or implied.  See the License for the
+       specific language governing permissions and limitations
+       under the License.
+-->
+<configuration>
+    <autoscaler>
+        <cloudController>
+	    <%- if @cc_host_name -%>
+	    <hostname><%= @cc_host_name %></hostname>
+            <% else %> 
+            <hostname>localhost</hostname>
+            <%- end -%>
+	    <%- if @cc_port -%>
+	    <port><%= @cc_port %></port>
+            <% else %> 
+            <port>9443</port>
+            <%- end -%>                   
+            <!-- CC client timout in ms -->
+	    <%- if @cc_client_timeout -%>
+	    <clientTimeout><%= @cc_client_timeout %></clientTimeout>
+            <% else %> 
+            <clientTimeout>300000</clientTimeout>
+            <%- end -%>  
+        </cloudController>
+        <stratosManager>
+	    <%- if @sm_host_name -%>
+	    <hostname><%= @sm_host_name %></hostname>
+            <% else %> 
+            <hostname>localhost</hostname>
+            <%- end -%>
+	    <%- if @sm_port -%>
+	    <port><%= @sm_port %></port>
+            <% else %> 
+            <port>9443</port>
+            <%- end -%>  
+            <!-- SM client timeout in ms -->
+	    <%- if @sm_client_timeout -%>
+	    <clientTimeout><%= @sm_client_timeout %></clientTimeout>
+            <% else %> 
+            <clientTimeout>300000</clientTimeout>
+            <%- end -%> 
+        </stratosManager>
+	<identity>
+	    <%- if @identity_host_name -%>
+	    <hostname><%= @identity_host_name %></hostname>
+            <% else %> 
+            <hostname>localhost</hostname>
+            <%- end -%>
+	    <%- if @identity_port -%>
+	    <port><%= @identity_port %></port>
+            <% else %> 
+            <port>9443</port>
+            <%- end -%>                     
+	    <%- if @identity_client_timeout -%>
+	    <clientTimeout><%= @identity_client_timeout %></clientTimeout>
+            <% else %> 
+            <clientTimeout>300000</clientTimeout>
+            <%- end -%>  
+        </identity>
+        <member>
+	    <%- if @member_spin_after_terminate == true -%>
+	    <spinAfterTerminate>true</spinAfterTerminate>
+            <% else %> 
+            <spinAfterTerminate>false</spinAfterTerminate>
+            <%- end -%>           
+            <!-- this is the maximum time(ms) a member can be in pending member state -->
+	    <%- if @pending_member_expiry_timeout -%>
+	    <pendingMemberExpiryTimeout><%= @pending_member_expiry_timeout %></pendingMemberExpiryTimeout>
+            <% else %> 
+            <pendingMemberExpiryTimeout>900000</pendingMemberExpiryTimeout>
+            <%- end -%>            
+            <!-- this is the maximum time(ms) a member can be in obsoleted member state -->
+	    <%- if @obsoleted_member_expiry_timeout -%>
+	    <obsoletedMemberExpiryTimeout><%= @obsoleted_member_expiry_timeout %></obsoletedMemberExpiryTimeout>
+            <% else %> 
+            <obsoletedMemberExpiryTimeout>86400000</obsoletedMemberExpiryTimeout>
+            <%- end -%>          
+            <!-- this is the maximum time(ms) a member can be in pending termination member state -->
+	    <%- if @pending_termination_member_expiry_timeout -%>
+            <pendingTerminationMemberExpiryTimeout><%= @pending_termination_member_expiry_timeout %></pendingTerminationMemberExpiryTimeout>
+            <% else %> 
+            <pendingTerminationMemberExpiryTimeout>1800000</pendingTerminationMemberExpiryTimeout>
+            <%- end -%>  
+        </member>
+        <cluster>
+            <!-- cluster monitoring interval (ms) -->
+	    <%- if @cluster_monitoring_interval -%>
+            <monitorInterval><%= @cluster_monitoring_interval %></monitorInterval>
+            <% else %> 
+            <monitorInterval>90000</monitorInterval>
+            <%- end -%>  
+        </cluster>
+        <threadpool>
+            <identifier>Autoscaler</identifier>
+            <threadPoolSize>10</threadPoolSize>
+        </threadpool>
+    </autoscaler>
+</configuration>
