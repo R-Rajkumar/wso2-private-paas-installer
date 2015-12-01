@@ -23,6 +23,7 @@ CURRENT_DIR=$(dirname $0)
 INSTALLER_PATH=`cd $CURRENT_DIR;pwd`
 SCRIPTS_PATH=${INSTALLER_PATH}/scripts
 PACKS_PATH=${INSTALLER_PATH}/packs
+CONF_PATH=${INSTALLER_PATH}/conf
 
 # installation variables
 DEBUG_LOG=false
@@ -33,6 +34,7 @@ CLEAN=false
 export INSTALLER_PATH
 export SCRIPTS_PATH
 export PACKS_PATH
+export CONF_PATH
 
 source ${SCRIPTS_PATH}/config.sh
 source ${SCRIPTS_PATH}/functions.sh

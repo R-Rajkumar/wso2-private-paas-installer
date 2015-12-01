@@ -19,13 +19,13 @@
 
 source ${SCRIPTS_PATH}/config.sh
 source ${SCRIPTS_PATH}/functions.sh
+source ${CONF_PATH}/setup.conf
 
 info_log "Private paas installation started"
 debug_log "Executing $0"
 
-info_log_n ""
-
 # firing a puppet apply command to install wso2 private paas
+debug_log "Running ${RUN_PUPPET_APPLY} --modulepath=${PUPPET_MODULES_PATH} -e \"include ppaas\""
 ${RUN_PUPPET_APPLY} --modulepath=${PUPPET_MODULES_PATH} -e "include ppaas"
 
 # waiting for wso2 private paas to become active

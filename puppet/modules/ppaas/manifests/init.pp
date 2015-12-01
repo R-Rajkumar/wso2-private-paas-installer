@@ -35,15 +35,17 @@ class ppaas (
   $carbon_home     = "${target}/wso2${service_code}-${carbon_version}"
 
   $service_templates = [
-#    'conf/user-mgt.xml',
-#    'conf/tenant-mgt.xml',
-    'conf/cloud-controller.xml',
-    'conf/datasources/master-datasources.xml',
-#    'conf/datasources/ppaas-datasources.xml',
-    'conf/jndi.properties',
+    'conf/autoscaler.xml',
+    'conf/carbon.xml',
     'conf/cartridge-config.properties',
+    'conf/cloud-controller.xml',
+    'conf/jndi.properties',
+    'conf/mock-iaas.xml',
+    'conf/mqtttopic.properties',
     'conf/registry.xml',
     'conf/thrift-client-config.xml',
+    'conf/user-mgt.xml',
+    'conf/datasources/master-datasources.xml',
     'deployment/server/jaggeryapps/console/controllers/menu/menu.json'
   ]
 
