@@ -163,7 +163,7 @@
         </iaasProvider>
         <%- end -%>
 
-        <%- if @kubernetes_iaas_enabled == true -%>
+        <%- if @kubernetes_iaas_enabled != false -%>
         <iaasProvider type="kubernetes" name="Kubernetes">
 	    <%- if @kubernetes_class -%>
             <className><%= @kubernetes_class %></className>
@@ -191,7 +191,7 @@
         </iaasProvider>
         <%- end -%>
 
-        <%- if @mock_iaas_enabled == true -%>
+        <%- if @mock_iaas_enabled != false -%>
         <iaasProvider type="mock" name="Mock">
 	    <%- if @mock_class -%>
 	    <className><%= @mock_class %></className>

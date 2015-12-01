@@ -17,10 +17,10 @@
   ~ under the License.
   -->
 
-<%- if @mock_iaas_enabled == true -%>
-<mock-iaas enabled="true">
-<% else %> 
+<%- if @mock_iaas_enabled == false -%>
 <mock-iaas enabled="false">
+<% else %> 
+<mock-iaas enabled="true">
 <%- end -%>
     <health-statistics>
         <cartridge type="tomcat">
