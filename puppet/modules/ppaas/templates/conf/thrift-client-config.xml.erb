@@ -20,21 +20,75 @@
     <config>
         <cep>
             <node id="node-01">
+		<%- if @cep_stats_publisher_enabled == false -%>
+                <statsPublisherEnabled>false</statsPublisherEnabled>
+		<% else %> 
                 <statsPublisherEnabled>true</statsPublisherEnabled>
+		<%- end -%>
+		<%- if @cep_username -%>
+                <username><%= @cep_username %></username>
+		<% else %> 
                 <username>admin</username>
+		<%- end -%>
+              	<%- if @cep_password -%>
+                <password><%= @cep_password %></password>
+		<% else %> 
                 <password>admin</password>
+		<%- end -%>  
+              	<%- if @cep_ip -%>
+                <ip><%= @cep_ip %></ip>
+		<% else %> 
                 <ip>localhost</ip>
+		<%- end -%>  
+              	<%- if @cep_port -%>
+                <port><%= @cep_port %></port>
+		<% else %> 
                 <port>7611</port>
+		<%- end -%>  
             </node>
+            <!--<node id="node-02">
+                 <statsPublisherEnabled>true</statsPublisherEnabled>
+                 <username>admin</username>
+                 <password>admin</password>
+                 <ip>10.10.1.1</ip>
+                 <port>7714</port>
+            </node>-->
         </cep>
         <das>
             <node id="node-01">
+		<%- if @das_stats_publisher_enabled == false -%>
+                <statsPublisherEnabled>false</statsPublisherEnabled>
+		<% else %> 
                 <statsPublisherEnabled>true</statsPublisherEnabled>
+		<%- end -%>
+		<%- if @das_username -%>
+                <username><%= @das_username %></username>
+		<% else %> 
                 <username>admin</username>
+		<%- end -%>
+              	<%- if @das_password -%>
+                <password><%= @das_password %></password>
+		<% else %> 
                 <password>admin</password>
+		<%- end -%>  
+              	<%- if @das_ip -%>
+                <ip><%= @das_ip %></ip>
+		<% else %> 
                 <ip>localhost</ip>
-                <port>7611</port>
+		<%- end -%>  
+              	<%- if @das_port -%>
+                <port><%= @das_port %></port>
+		<% else %> 
+                <port>7612</port>
+		<%- end -%>  
             </node>
+            <!--<node id="node-02">
+                 <statsPublisherEnabled>true</statsPublisherEnabled>
+                 <username>admin</username>
+                 <password>admin</password>
+                 <ip>10.10.1.1</ip>
+                 <port>7713</port>
+            </node>-->
         </das>
     </config>
 </thriftClientConfiguration>
