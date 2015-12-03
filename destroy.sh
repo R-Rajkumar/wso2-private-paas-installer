@@ -71,14 +71,25 @@ debug_log "Positional parameters [--profile] ${PROFILE} [--debug] ${DEBUG_LOG}"
 [ "$PROFILE" = "ppaas" ] && {
    # destroying wso2 private paas
    $SCRIPTS_PATH/destroy_ppaas.sh
-   # checking whether user wants to destroy activemq installation also
-   info_log_n  "Do you want to destroy activemq installation also? "
+
+while true; do
+   info_log_n  "Do you want to destroy activemq installation? [Y/N] "
    read answer
    answer=`echo $answer | tr [a-z] [A-Z]`
-   [ "$answer" = Y ] && {
-      # destroying activemq
-      $SCRIPTS_PATH/destroy_activemq.sh
-   }
+   case $answer in
+        Y) 
+         # destroying activemq
+         $SCRIPTS_PATH/destroy_activemq.sh
+         break
+        ;;
+        N) 
+         break
+        ;;
+        *) 
+         info_log "Please answer Y or N "
+        ;;
+   esac
+done
 
 }
 
