@@ -25,9 +25,9 @@ class activemq::config {
       group  => $activemq::group,
       require => Exec["Extract ${activemq::package}"];
 
-    "${activemq::activemq_home}/lib/mysql-connector-java-5.1.33-bin.jar":
+    "${activemq::activemq_home}/lib/mysql-connector-java-5.1.37-bin.jar":
       ensure  => present,
-      source  => 'puppet:///modules/activemq/mysql-connector-java-5.1.33-bin.jar',
+      source  => 'puppet:///modules/activemq/mysql-connector-java-5.1.37-bin.jar',
       owner   => $activemq::owner,
       group   => $activemq::group,
       mode    => '0777',

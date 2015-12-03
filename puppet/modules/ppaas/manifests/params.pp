@@ -26,7 +26,7 @@
 
 class ppaas::params {
 
- $local_package_dir='/mnt/packs'
+$local_package_dir='/mnt/${server_ip}/packs'
 
 # ppaas conf
 #PPAAS_HOST_IP="localhost"

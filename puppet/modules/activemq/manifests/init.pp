@@ -17,7 +17,8 @@
 
 class activemq(
   $version    = '5.12.1',
-  $base_dir   = '/mnt',
+  $base_dir   = '/mnt/${server_ip}',
+  $local_package_dir='${base_dir}/packs'
   $owner      = 'activemq',
   $group      = 'activemq',
   $webconsole = false,
