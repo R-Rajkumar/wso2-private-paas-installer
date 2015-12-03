@@ -29,7 +29,7 @@
     </bean>
 
    <!-- Allows accessing the server log -->
-    <bean id="logQuery" class="org.fusesource.insight.log.log4j.Log4jLogQuery"
+    <bean id="logQuery" class="io.fabric8.insight.log.log4j.Log4jLogQuery"
           lazy-init="false" scope="singleton"
           init-method="start" destroy-method="stop">
     </bean>
@@ -37,7 +37,7 @@
     <!--
         The <broker> element is used to configure the ActiveMQ broker.
     -->
-    <broker xmlns="http://activemq.apache.org/schema/core" brokerName="<%= @ipaddress %>" dataDirectory="${activemq.data}">
+    <broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" dataDirectory="${activemq.data}">
 
         <destinationPolicy>
             <policyMap>
@@ -79,16 +79,8 @@
             http://activemq.apache.org/persistence.html
         -->
         <persistenceAdapter>
-          <jdbcPersistenceAdapter dataDirectory="${activemq.base}/data" dataSource="#mysql-ds" lockKeepAlivePeriod="5000">
-            <locker>
-              <lease-database-locker lockAcquireSleepInterval="10000"/>
-            </locker>
-          </jdbcPersistenceAdapter>
-        </persistenceAdapter>
-
-        <!--persistenceAdapter>
             <kahaDB directory="${activemq.data}/kahadb"/>
-        </persistenceAdapter-->
+        </persistenceAdapter>
 
 
           <!--
@@ -119,11 +111,10 @@
         <transportConnectors>
             <!-- DOS protection, limit concurrent connections to 1000 and frame size to 100MB -->
             <transportConnector name="openwire" uri="tcp://0.0.0.0:61616?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600"/>
-            <!--transportConnector name="openwire" uri="tcp://0.0.0.0:61616?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600"/>
             <transportConnector name="amqp" uri="amqp://0.0.0.0:5672?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600"/>
-            <transportConnector name="stomp" uri="stomp://0.0.0.0:61613?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600"/-->
+            <transportConnector name="stomp" uri="stomp://0.0.0.0:61613?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600"/>
             <transportConnector name="mqtt" uri="mqtt://0.0.0.0:1883?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600"/>
-            <!--transportConnector name="ws" uri="ws://0.0.0.0:61614?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600"/-->
+            <transportConnector name="ws" uri="ws://0.0.0.0:61614?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600"/>
         </transportConnectors>
 
         <!-- destroy the spring context on shutdown to stop jetty -->
@@ -132,15 +123,6 @@
         </shutdownHooks>
 
     </broker>
-
-    <bean id="mysql-ds" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-      <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-      <property name="url" value="jdbc:mysql://<%= @activemq_datasource['hostname'] %>:3306/<%= @activemq_datasource['database'] %>?relaxAutoCommit=true"/>
-      <property name="username" value="<%= @activemq_datasource['username'] %>"/>
-      <property name="password" value="<%= @activemq_datasource['password'] %>"/>
-      <property name="maxActive" value="200"/> 
-      <property name="poolPreparedStatements" value="true"/>
-    </bean>
 
     <!--
         Enable web consoles, REST and Ajax APIs and demos

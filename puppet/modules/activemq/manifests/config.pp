@@ -27,7 +27,7 @@ class activemq::config {
 
     "${activemq::activemq_home}/lib/mysql-connector-java-5.1.37-bin.jar":
       ensure  => present,
-      source  => 'puppet:///modules/activemq/mysql-connector-java-5.1.37-bin.jar',
+      source  => 'puppet:///modules/activemq/packs/mysql-connector-java-5.1.37-bin.jar',
       owner   => $activemq::owner,
       group   => $activemq::group,
       mode    => '0777',

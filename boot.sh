@@ -79,7 +79,7 @@ debug_log "Positional parameters [--profile] ${PROFILE} [--debug] ${DEBUG_LOG} [
 
 [ "$PROFILE" = "activemq" ] && [ "$CLEAN" = false ] && {
    # starting activemq
-   $SCRIPTS_PATH/install_ppaas.sh
+   $SCRIPTS_PATH/install_activemq.sh
 }
 
 

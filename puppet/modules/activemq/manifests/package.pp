@@ -18,7 +18,7 @@
 class activemq::package {
 
   file {
-    $local_package_dir:
+    $activemq::local_package_dir:
       ensure => directory;
 
     $activemq::base_dir:
@@ -26,10 +26,10 @@ class activemq::package {
       owner  => $activemq::owner,
       group  => $activemq::group;
 
-    "${local_package_dir}/${activemq::package}":
+    "${activemq::local_package_dir}/${activemq::package}":
       ensure  => present,
-      source  => "puppet:///modules/activemq/${activemq::package}",
-      require => File[$local_package_dir];
+      source  => "puppet:///modules/activemq/packs/${activemq::package}",
+      require => File[$activemq::local_package_dir];
   }
 
   exec {
@@ -37,10 +37,10 @@ class activemq::package {
       path    => '/opt/java/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
       cwd     => $activemq::base_dir,
       unless  => "test -d ${activemq::activemq_home}/conf",
-      command => "tar xvfz ${local_package_dir}/${activemq::package}",
+      command => "tar xvfz ${activemq::local_package_dir}/${activemq::package}",
       creates => "${activemq::activemq_home}/conf",
       require =>  [
-        File["${local_package_dir}/${activemq::package}"],
+        File["${activemq::local_package_dir}/${activemq::package}"],
         File[$activemq::base_dir],
         ];
 

@@ -16,12 +16,12 @@
 #
 
 class activemq(
-  $version    = '5.12.1',
-  $base_dir   = '/mnt/${server_ip}',
-  $local_package_dir='${base_dir}/packs'
-  $owner      = 'activemq',
-  $group      = 'activemq',
-  $webconsole = false,
+  $version    	     = '5.12.1',
+  $base_dir          = '/mnt',
+  $local_package_dir = "${base_dir}/packs",
+  $owner             = 'root',
+  $group             = 'root',
+  $webconsole        = false,
 ) {
 
   $package       = "apache-activemq-${version}-bin.tar.gz"
