@@ -21,18 +21,11 @@ source ${SCRIPTS_PATH}/config.sh
 source ${SCRIPTS_PATH}/functions.sh
 source ${CONF_PATH}/setup.conf
 
-info_log "Private paas installation started"
+info_log "ActiveMQ installation started"
 debug_log "Executing $0"
 
-# firing a puppet apply command to install wso2 private paas
-debug_log "Running ${RUN_PUPPET_APPLY} --modulepath=${PUPPET_MODULES_PATH} -e \"include ppaas\""
-${RUN_PUPPET_APPLY} --modulepath=${PUPPET_MODULES_PATH} -e "include ppaas"
+# firing a puppet apply command to install activemq
+debug_log "Running ${RUN_PUPPET_APPLY} --modulepath=${PUPPET_MODULES_PATH} -e \"include activemq\""
+${RUN_PUPPET_APPLY} --modulepath=${PUPPET_MODULES_PATH} -e "include activemq"
 
-# waiting for wso2 private paas to become active
-datestring=`date +'%Y-%m-%d %H:%M:%S'`
-info_log_n "Waiting for private paas server to become active"
-wait_until_ppaas_server_is_ready ${PPAAS_HOST_IP} ${PPAAS_HOST_PORT}
-
-echo ""
-datestring=`date +'%Y-%m-%d %H:%M:%S'`
-info_log "Private paas installation completed successfully"
+info_log "ActiveMQ installation completed successfully"
