@@ -18,13 +18,14 @@
 class activemq::package {
 
   file {
-    $activemq::local_package_dir:
-      ensure => directory;
 
     $activemq::base_dir:
       ensure => directory,
       owner  => $activemq::owner,
       group  => $activemq::group;
+
+    $activemq::local_package_dir:
+      ensure => directory;
 
     "${activemq::local_package_dir}/${activemq::package}":
       ensure  => present,

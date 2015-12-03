@@ -1,8 +1,9 @@
+#!/bin/bash
 # ----------------------------------------------------------------------------
 #  Copyright 2005-2015 WSO2, Inc. http://www.wso2.org
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file exppaast in compliance with the License.
+#  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
 #
 #      http://www.apache.org/licenses/LICENSE-2.0
@@ -13,27 +14,20 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ----------------------------------------------------------------------------
-#
 
-class activemq(
-  $version    	     = '5.12.1',
-  $base_dir          = '/mnt',
-  $owner             = 'root',
-  $group             = 'root',
-  $webconsole        = false,
-) {
+# action : install wso2 private paas using puppet apply or master/agent
 
-  $local_package_dir = "${base_dir}/packs"
-  $package       = "apache-activemq-${version}-bin.tar.gz"
-  $activemq_home = "${base_dir}/apache-activemq-${version}"
+source ${SCRIPTS_PATH}/config.sh
+source ${SCRIPTS_PATH}/functions.sh
+source ${CONF_PATH}/setup.conf
 
-  class { 'activemq::package': }
+info_log "Cleaning private paas installation"
+debug_log "Executing $0"
 
-  class { 'activemq::config':
-    notify => Class['activemq::service'],
-  }
+info_log "Stopping private paas"
+/etc/init.d/wso2ppaas stop
 
-  class { 'activemq::service':
-    require => Class['activemq::package'],
-  }
-}
+sudo rm -rf /mnt/wso2ppaas-4.1.0/
+sudo rm /mnt/packs/wso2ppaas-4.1.0.zip
+
+info_log "Cleaned private paas installation successfully"
