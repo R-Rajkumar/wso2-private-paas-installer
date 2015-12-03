@@ -111,8 +111,24 @@ done
 }
 
 [ "$PROFILE" = "activemq" ] && {
-   # destroying activemq
-   $SCRIPTS_PATH/destroy_activemq.sh
+  while true; do
+     info_log_n  "Do you want to destroy activemq installation? [Y/N] "
+     read answer
+     answer=`echo $answer | tr [a-z] [A-Z]`
+     case $answer in
+          Y) 
+           # destroying activemq
+           $SCRIPTS_PATH/destroy_activemq.sh
+           break
+          ;;
+          N) 
+           break
+          ;;
+          *) 
+           info_log "Please answer Y or N "
+          ;;
+     esac
+  done
 }
 
 info_log "Cleaning completed successfully"
