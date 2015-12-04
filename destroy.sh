@@ -20,7 +20,7 @@ set -o nounset
 
 # installation constants
 CURRENT_DIR=$(dirname $0)
-INSTALLER_PATH=`cd $CURRENT_DIR;pwd`
+INSTALLER_PATH=`cd ${CURRENT_DIR};pwd`
 SCRIPTS_PATH=${INSTALLER_PATH}/scripts
 PACKS_PATH=${INSTALLER_PATH}/packs
 CONF_PATH=${INSTALLER_PATH}/conf
@@ -44,7 +44,7 @@ info_log "Cleaning started"
 while [[ $# > 0 ]]
 do
 key="$1"
-case $key in
+case ${key} in
     -h|--help)
      display_help
      exit 0
@@ -73,11 +73,11 @@ debug_log "Positional parameters [--profile] ${PROFILE} [--debug] ${DEBUG_LOG}"
 while true; do
    info_log_n  "Do you want to destroy private paas installation? [Y/N] "
    read answer
-   answer=`echo $answer | tr [a-z] [A-Z]`
-   case $answer in
+   answer=`echo ${answer} | tr [a-z] [A-Z]`
+   case ${answer} in
         Y) 
          # destroying wso2 private paas
-         $SCRIPTS_PATH/destroy_ppaas.sh
+         ${SCRIPTS_PATH}/destroy_ppaas.sh
          break
         ;;
         N) 
@@ -92,11 +92,11 @@ done
 while true; do
    info_log_n  "Do you want to destroy activemq installation? [Y/N] "
    read answer
-   answer=`echo $answer | tr [a-z] [A-Z]`
-   case $answer in
+   answer=`echo ${answer} | tr [a-z] [A-Z]`
+   case ${answer} in
         Y) 
          # destroying activemq
-         $SCRIPTS_PATH/destroy_activemq.sh
+         ${SCRIPTS_PATH}/destroy_activemq.sh
          break
         ;;
         N) 
@@ -114,11 +114,11 @@ done
   while true; do
      info_log_n  "Do you want to destroy activemq installation? [Y/N] "
      read answer
-     answer=`echo $answer | tr [a-z] [A-Z]`
-     case $answer in
+     answer=`echo ${answer} | tr [a-z] [A-Z]`
+     case ${answer} in
           Y) 
            # destroying activemq
-           $SCRIPTS_PATH/destroy_activemq.sh
+           ${SCRIPTS_PATH}/destroy_activemq.sh
            break
           ;;
           N) 

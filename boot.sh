@@ -20,7 +20,7 @@ set -o nounset
 
 # installation constants
 CURRENT_DIR=$(dirname $0)
-INSTALLER_PATH=`cd $CURRENT_DIR;pwd`
+INSTALLER_PATH=`cd ${CURRENT_DIR};pwd`
 SCRIPTS_PATH=${INSTALLER_PATH}/scripts
 PACKS_PATH=${INSTALLER_PATH}/packs
 CONF_PATH=${INSTALLER_PATH}/conf
@@ -45,7 +45,7 @@ info_log "Installation started"
 while [[ $# > 0 ]]
 do
 key="$1"
-case $key in
+case ${key} in
     -h|--help)
      display_help
      exit 0
@@ -74,12 +74,12 @@ debug_log "Positional parameters [--profile] ${PROFILE} [--debug] ${DEBUG_LOG} [
 
 [ "$PROFILE" = "ppaas" ] && [ "$CLEAN" = false ] && {
    # starting wso2 private paas
-   $SCRIPTS_PATH/install_ppaas.sh
+   ${SCRIPTS_PATH}/install_ppaas.sh
 }
 
 [ "$PROFILE" = "activemq" ] && [ "$CLEAN" = false ] && {
    # starting activemq
-   $SCRIPTS_PATH/install_activemq.sh
+   ${SCRIPTS_PATH}/install_activemq.sh
 }
 
 
