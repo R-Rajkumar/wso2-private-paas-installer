@@ -82,5 +82,4 @@ debug_log "Positional parameters [--profile] ${PROFILE} [--debug] ${DEBUG_LOG} [
    ${SCRIPTS_PATH}/install_activemq.sh
 }
 
-
 info_log "Installation completed successfully"
