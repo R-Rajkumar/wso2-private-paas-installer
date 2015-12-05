@@ -32,7 +32,7 @@ debug_log "Starting server on [host] ${PPAAS_HOST_IP} [port] $((${PPAAS_HOST_POR
 
 # waiting for wso2 private paas to become active
 info_log_n "Waiting for private paas server to become active"
-wait_until_ppaas_server_is_ready ${PPAAS_HOST_IP} $((${PPAAS_HOST_PORT} + ${FACTER_ppaas_offset}))
+wait_until_ppaas_server_is_ready ${PPAAS_HOST_IP} $((${PPAAS_HOST_PORT} + ${FACTER_ppaas_offset})) ${PPAAS_USERNAME} ${PPAAS_PASSWORD}
 
 echo ""
 info_log "Private paas installation completed successfully"
