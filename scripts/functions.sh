@@ -18,7 +18,7 @@
 # action : checking whether the stratos server is ready to handle requests
 # usage  : is_server_active ${stratos_ip} ${stratos_port}
 function wait_until_ppaas_server_is_ready() {
-    until $(curl --output /dev/null --silent --head --fail -X GET -H "Content-Type: application/json" -k -u admin:admin https://$1:$2/api/init); do
+    until [ "$(curl --output /dev/null --silent --head --fail -X GET -H "Content-Type: application/json" --write-out '%{http_code}\n' -k -u admin:admin https://$1:$2/api/init)" == "200" ]; do
       printf '.'
       sleep 5
     done

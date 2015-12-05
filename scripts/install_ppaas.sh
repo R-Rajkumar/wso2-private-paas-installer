@@ -28,9 +28,11 @@ debug_log "Executing $0"
 debug_log "Running ${RUN_PUPPET_APPLY} --modulepath=${PUPPET_MODULES_PATH} -e \"include ppaas\""
 ${RUN_PUPPET_APPLY} --modulepath=${PUPPET_MODULES_PATH} -e "include ppaas"
 
+debug_log "Starting server on [host] ${PPAAS_HOST_IP} [port] $((${PPAAS_HOST_PORT} + ${FACTER_ppaas_offset}))"
+
 # waiting for wso2 private paas to become active
 info_log_n "Waiting for private paas server to become active"
-wait_until_ppaas_server_is_ready ${PPAAS_HOST_IP} ${PPAAS_HOST_PORT}
+wait_until_ppaas_server_is_ready ${PPAAS_HOST_IP} $((${PPAAS_HOST_PORT} + ${FACTER_ppaas_offset}))
 
 echo ""
 info_log "Private paas installation completed successfully"
