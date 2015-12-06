@@ -52,3 +52,9 @@ function info_log_n() {
     local date=`date +'%Y-%m-%d %H:%M:%S'`
     echo -e -n "[${date}] INFO - $*";
 }
+
+function replace_in_file() {
+    debug_log "Setting value $2 for property $1 in file $3"
+    sed -i "s/\($1 *= *\).*/\1$2/" $3
+}
+

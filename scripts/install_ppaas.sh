@@ -19,12 +19,27 @@
 
 source ${SCRIPTS_PATH}/config.sh
 source ${SCRIPTS_PATH}/functions.sh
-source ${CONF_PATH}/default.conf
+source ${CONF_PATH}/setup.conf
 
 info_log "Private paas installation started"
 debug_log "Executing $0"
 
+if [[ ${FACTER_ppaas_offset} -ge 0 ]];
+  then
+    info_log_n  "Please enter private paas port offset or press enter to keep the default value $FACTER_ppaas_offset : "
+  else
+    info_log_n  "Please enter private paas port offset : "
+fi
 
+read ppaas_offset
+debug_log "You entered ${ppaas_offset} as private paas port offset"
+
+[[ ${ppaas_offset}  =~ ^-?[0-9]+$ ]] && [[ ${ppaas_offset}  -ge 0 ]] && {
+    replace_in_file "FACTER_ppaas_offset" "$ppaas_offset" "${CONF_PATH}/setup.conf"
+}
+
+# overriding default environment variables before running puppet apply
+source ${CONF_PATH}/setup.conf
 
 # firing a puppet apply command to install wso2 private paas
 debug_log "Running ${RUN_PUPPET_APPLY} --modulepath=${FACTER_puppet_modules_path} -e \"include ppaas\""
