@@ -20,49 +20,49 @@
 #
 
 <%- if @autoscaler_service_url -%>
-autoscaler.service.url=<%= @autoscaler_service_url %> 
+autoscaler.service.url=<%= @autoscaler_service_url %>
 <% else %> 
 autoscaler.service.url=https://localhost:9443/services/AutoscalerService/
 <%- end -%>
 
 <%- if @cloud_controller_service_url -%>
-cloud.controller.service.url=<%= @cloud_controller_service_url %> 
+cloud.controller.service.url=<%= @cloud_controller_service_url %>
 <% else %> 
 cloud.controller.service.url=https://localhost:9443/services/CloudControllerService/
 <%- end -%>
 
 <%- if @stratos_manager_service_url -%>
-stratos.manager.service.url=<%= @stratos_manager_service_url %> 
+stratos.manager.service.url=<%= @stratos_manager_service_url %>
 <% else %> 
 stratos.manager.service.url=https://localhost:9443/services/StratosManagerService/
 <%- end -%>
 
 <%- if @das_metering_dashboard_url -%>
-das.metering.dashboard.url=<%= @das_metering_dashboard_url %> 
+das.metering.dashboard.url=<%= @das_metering_dashboard_url %>
 <% else %> 
 das.metering.dashboard.url=https://localhost:9444/portal/dashboards/ppaas-metering-dashboard
 <%- end -%>
 
 <%- if @puppet_ip -%>
-puppet.ip=<%= @puppet_ip %> 
+puppet.ip=<%= @puppet_ip %>
 <% else %> 
 puppet.ip=127.0.0.1
 <%- end -%>
 
 <%- if @puppet_hostname -%>
-puppet.hostname=<%= @puppet_hostname %> 
+puppet.hostname=<%= @puppet_hostname %>
 <% else %> 
 puppet.hostname=puppet.apache.stratos.org
 <%- end -%>
 
 <%- if @puppet_dns_available -%>
-puppet.dns.available=<%= @puppet_dns_available %> 
+puppet.dns.available=<%= @puppet_dns_available %>
 <% else %> 
 puppet.dns.available=false
 <%- end -%>
 
 <%- if @puppet_environment -%>
-puppet.environment=<%= @puppet_environment %> 
+puppet.environment=<%= @puppet_environment %>
 <% else %> 
 puppet.environment=stratos
 <%- end -%>
