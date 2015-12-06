@@ -24,11 +24,13 @@ source ${CONF_PATH}/setup.conf
 info_log "Private paas installation started"
 debug_log "Executing $0"
 
-# firing a puppet apply command to install wso2 private paas
-debug_log "Running ${RUN_PUPPET_APPLY} --modulepath=${PUPPET_MODULES_PATH} -e \"include ppaas\""
-${RUN_PUPPET_APPLY} --modulepath=${PUPPET_MODULES_PATH} -e "include ppaas"
 
-debug_log "Starting server on [host] ${PPAAS_HOST_IP} [port] $((${PPAAS_HOST_PORT} + ${FACTER_ppaas_offset}))"
+
+# firing a puppet apply command to install wso2 private paas
+debug_log "Running ${RUN_PUPPET_APPLY} --modulepath=${FACTER_puppet_modules_path} -e \"include ppaas\""
+${RUN_PUPPET_APPLY} --modulepath=${FACTER_puppet_modules_path} -e "include ppaas"
+
+debug_log "Starting server on [host] ${FACTER_ppaas_host_ip} [port] $((${FACTER_ppaas_host_port} + ${FACTER_ppaas_offset}))"
 
 # waiting for wso2 private paas to become active
 info_log_n "Waiting for private paas server to become active"
