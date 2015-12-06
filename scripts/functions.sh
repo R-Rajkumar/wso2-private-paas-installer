@@ -34,21 +34,21 @@ function display_help() {
 # usage  : debug ${string}
 function debug_log() { 
     if [ "$DEBUG_LOG" = true ]; then 
-       local datestring=`date +'%Y-%m-%d %H:%M:%S'`
-       echo -e "[${datestring}] DEBUG - $*"; 
+       local date=`date +'%Y-%m-%d %H:%M:%S'`
+       echo -e "[${date}] DEBUG - $*";
     fi
 }
 
 # action : log
 # usage  : log ${string}
 function info_log() { 
-    local datestring=`date +'%Y-%m-%d %H:%M:%S'`
-    echo -e "[${datestring}] INFO - $*"; 
+    local date=`date +'%Y-%m-%d %H:%M:%S'`
+    echo -e "[${date}] INFO - $*";
 }
 
 # action : log without new line
 # usage  : log ${string}
 function info_log_n() { 
-    local datestring=`date +'%Y-%m-%d %H:%M:%S'`
-    echo -e -n "[${datestring}] INFO - $*"; 
+    local date=`date +'%Y-%m-%d %H:%M:%S'`
+    echo -e -n "[${date}] INFO - $*";
 }
