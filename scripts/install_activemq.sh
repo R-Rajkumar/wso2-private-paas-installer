@@ -28,7 +28,7 @@ debug_log "Executing $0"
 source ${CONF_PATH}/setup.conf
 
 # firing a puppet apply command to install activemq
-debug_log "Running ${RUN_PUPPET_APPLY} --modulepath=${PUPPET_MODULES_PATH} -e \"include activemq\""
-${RUN_PUPPET_APPLY} --modulepath=${PUPPET_MODULES_PATH} -e "include activemq"
+debug_log "Running ${RUN_PUPPET_APPLY} --modulepath=${FACTER_puppet_modules_path} -e \"include activemq\""
+${RUN_PUPPET_APPLY} --modulepath=${FACTER_puppet_modules_path} -e "include activemq"
 
 info_log "ActiveMQ installation completed successfully"
