@@ -19,7 +19,7 @@
 
 source ${SCRIPTS_PATH}/config.sh
 source ${SCRIPTS_PATH}/functions.sh
-source ${CONF_PATH}/setup.conf
+source ${CONF_PATH}/default.conf
 
 info_log "Private paas installation started"
 debug_log "Executing $0"

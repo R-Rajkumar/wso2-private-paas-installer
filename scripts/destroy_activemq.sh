@@ -19,6 +19,7 @@
 
 source ${SCRIPTS_PATH}/config.sh
 source ${SCRIPTS_PATH}/functions.sh
+source ${CONF_PATH}/default.conf
 source ${CONF_PATH}/setup.conf
 
 info_log "Cleaning ActiveMQ installation"
