@@ -24,7 +24,7 @@ source ${CONF_PATH}/setup.conf
 info_log "Cleaning private paas installation"
 debug_log "Executing $0"
 
-info_log "Stopping private paas"
+info_log "Shutting down private paas"
 /etc/init.d/wso2ppaas stop
 
 sudo rm -rf /mnt/wso2ppaas-4.1.0/

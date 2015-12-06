@@ -112,7 +112,7 @@ stop() {
         ps -fp $PID > /dev/null 2>&1
         PIDVAL=$?
         if [ $PIDVAL -eq 0 ]; then
-            echo -n "Stopping WSO2 $PRODUCT_CODE server: "
+            echo -n "Shutting down WSO2 $PRODUCT_CODE server: "
             su - $USER -c "$CMD stop > /dev/null 2>&1 &"
             rm -f $LOCK_FILE
             sleep 10
