@@ -25,53 +25,57 @@ info_log "Private paas installation started"
 debug_log "Executing $0"
 
 info_log "Listing available ip address of the machine \n$(list_ip_addresses)"
-info_log_n  "Please select one of the above ip address to run private paas with : "
+info_log_n  "Please select one of the above ip address to run private paas with or press enter keep the default value ${FACTER_ppaas_host_ip} : "
 read machine_ip
-debug_log "You entered ${machine_ip} as private paas ip"
 
-if [[ ! -z "$machine_ip" ]] && [[ $(list_ip_addresses) == *"${machine_ip}"* ]];
-  then
-    overwrite_property_value_in_file "FACTER_ppaas_host_ip" "$machine_ip" "${CONF_PATH}/setup.conf"
-  else
-    info_log "Entered ip is not available in this machine, proceeding with 127.0.0.1"
-    overwrite_property_value_in_file "FACTER_ppaas_host_ip" "127.0.0.1" "${CONF_PATH}/setup.conf"
+if [[ -z "$machine_ip" ]];
+then
+  debug_log "You have selected the default value ${FACTER_ppaas_host_ip} as private paas ip"
+elif [[ ! -z "$machine_ip" ]] && [[ $(list_ip_addresses) == *"${machine_ip}"* ]];
+then
+  debug_log "You entered ${machine_ip} as private paas ip"
+  overwrite_property_value_in_file "FACTER_ppaas_host_ip" "$machine_ip" "${CONF_PATH}/setup.conf"
+else
+  debug_log "You entered ${machine_ip} as private paas ip"
+  info_log "Entered ip is not available in this machine, proceeding with 127.0.0.1"
+  overwrite_property_value_in_file "FACTER_ppaas_host_ip" "127.0.0.1" "${CONF_PATH}/setup.conf"
 fi
 
 if [[ ${FACTER_ppaas_offset} -ge 0 ]];
-  then
-    info_log_n  "Please enter private paas port offset or press enter to keep the default value $FACTER_ppaas_offset : "
-  else
-    info_log_n  "Please enter private paas port offset : "
+then
+  info_log_n  "Please enter private paas port offset or press enter to keep the default value $FACTER_ppaas_offset : "
+else
+  info_log_n  "Please enter private paas port offset : "
 fi
 
 read ppaas_offset
 debug_log "You entered ${ppaas_offset} as private paas port offset"
 
 [[ ! -z ${ppaas_offset} ]] && [[ ${ppaas_offset}  =~ ^-?[0-9]+$ ]] && [[ ${ppaas_offset}  -ge 0 ]] && {
-    overwrite_property_value_in_file "FACTER_ppaas_offset" $ppaas_offset "${CONF_PATH}/setup.conf"
-    overwrite_property_value_in_file "FACTER_ppaas_host_port" $((${FACTER_ppaas_host_port} + ${ppaas_offset})) "${CONF_PATH}/setup.conf"
+  overwrite_property_value_in_file "FACTER_ppaas_offset" $ppaas_offset "${CONF_PATH}/setup.conf"
+  overwrite_property_value_in_file "FACTER_ppaas_host_port" $((${FACTER_ppaas_host_port} + ${ppaas_offset})) "${CONF_PATH}/setup.conf"
 }
 
 if [[ -z "$FACTER_mb_url" ]];
-  then
-    info_log_n  "Please enter message broker amqp url : "
-  else
-    info_log_n  "Please enter message broker amqp url or press enter to keep the default value $FACTER_mb_url : "
+ then
+  info_log_n  "Please enter message broker amqp url : "
+ else
+  info_log_n  "Please enter message broker amqp url or press enter to keep the default value $FACTER_mb_url : "
 fi
 
 read mb_amqp_url
 
 if [[ -z "$mb_amqp_url" ]] && [[ -z "$FACTER_mb_url" ]];
-  then
-    info_log "Entered message broker amqp url is not valid, proceeding with tcp://localhost:61616"
-    overwrite_property_value_in_file "FACTER_mb_url" "tcp://localhost:61616" "${CONF_PATH}/setup.conf"
-  elif [[ -z "$mb_amqp_url" ]] && [[ ! -z "$FACTER_mb_url" ]];
-    then
-      debug_log "You have selected the default value ${FACTER_mb_url} as message broker amqp url"
-  elif [[ ! -z "$mb_amqp_url" ]];
-    then
-      debug_log "You entered ${mb_amqp_url} as message broker amqp url"
-      overwrite_property_value_in_file "FACTER_mb_url" "$mb_amqp_url" "${CONF_PATH}/setup.conf"
+then
+  info_log "Entered message broker amqp url is not valid, proceeding with tcp://localhost:61616"
+  overwrite_property_value_in_file "FACTER_mb_url" "tcp://localhost:61616" "${CONF_PATH}/setup.conf"
+elif [[ -z "$mb_amqp_url" ]] && [[ ! -z "$FACTER_mb_url" ]];
+then
+  debug_log "You have selected the default value ${FACTER_mb_url} as message broker amqp url"
+elif [[ ! -z "$mb_amqp_url" ]];
+then
+  debug_log "You entered ${mb_amqp_url} as message broker amqp url"
+  overwrite_property_value_in_file "FACTER_mb_url" "$mb_amqp_url" "${CONF_PATH}/setup.conf"
 fi
 
 # overriding default environment variables before running puppet apply
