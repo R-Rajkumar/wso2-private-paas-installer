@@ -83,6 +83,22 @@ function declare_variables_from_file {
     while read -r line
         do
             [[ "$line" =~ ^#.*$ ]] && continue
-            declare  ${line}
+            declare ${line} &> /dev/null
         done < $1
+}
+
+# action : read uncommented key-value pairs from the given file and export them as environment variables
+# usage  : declare_variables_from_file ${file}
+function export_variables_from_file {
+    while read -r line
+        do
+            [[ "$line" =~ ^#.*$ ]] && continue
+            export ${line} &> /dev/null
+        done < $1
+}
+
+# action : read a property value from the given file
+# usage  : read_property ${key} ${file}
+function read_property() {
+    echo "$(grep $1 $2 |  awk -F= '{print $2}')"
 }
