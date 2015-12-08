@@ -76,3 +76,13 @@ function read_user_input() {
         echo $3
     fi
 }
+
+# action : read uncommented key-value pairs from the given file and declare them as variables
+# usage  : declare_variables_from_file ${file}
+function declare_variables_from_file {
+    while read -r line
+        do
+            [[ "$line" =~ ^#.*$ ]] && continue
+            declare  ${line}
+        done < $1
+}
