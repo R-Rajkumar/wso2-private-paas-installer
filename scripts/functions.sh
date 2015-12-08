@@ -30,12 +30,12 @@ function display_help() {
     echo "Sorry, but no help"
 }
 
-# action : log if DEBUG_LOG is set to 1
-# usage  : debug ${string}
-function debug_log() { 
-    if [ "$DEBUG_LOG" = true ]; then 
+# action : log if VERBOSE is set to true
+# usage  : verbose_log ${string}
+function verbose_log() {
+    if [ "$VERBOSE" = true ]; then
        local date=`date +'%Y-%m-%d %H:%M:%S'`
-       echo -e "[${date}] DEBUG - $*";
+       echo -e "[${date}] - $*";
     fi
 }
 
@@ -43,20 +43,20 @@ function debug_log() {
 # usage  : log ${string}
 function info_log() { 
     local date=`date +'%Y-%m-%d %H:%M:%S'`
-    echo -e "[${date}] INFO - $*";
+    echo -e "[${date}] - $*";
 }
 
 # action : log without new line
 # usage  : log ${string}
 function info_log_n() { 
     local date=`date +'%Y-%m-%d %H:%M:%S'`
-    echo -e -n "[${date}] INFO - $*";
+    echo -e -n "[${date}] - $*";
 }
 
 # action : overwrite a property value in the given file
 # usage  : overwrite_property_value_in_file ${key} ${value} ${file}
 function overwrite_property_value_in_file() {
-    debug_log "Setting value $2 for property $1 in file $3"
+    verbose_log "Setting value $2 for property $1 in file $3"
     sed -i "s/\($1 *= *\).*/\1$2/" $3
 }
 

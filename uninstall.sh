@@ -26,7 +26,7 @@ PACKS_PATH=${INSTALLER_PATH}/packs
 CONF_PATH=${INSTALLER_PATH}/conf
 
 # installation variables
-DEBUG_LOG=false
+VERBOSE=false
 PROFILE="default"
 
 # exporting installation constants as environment variables
@@ -49,8 +49,8 @@ case ${key} in
      display_help
      exit 0
     ;;
-    -d|--debug)
-     DEBUG_LOG=true
+    -d|--verbose)
+     VERBOSE=true
     ;;
     -p|--profile)
      PROFILE="$2"
@@ -63,10 +63,10 @@ esac
 shift
 done
 
-# exporting DEBUG_LOG as environment variable
-export DEBUG_LOG
+# exporting VERBOSE as environment variable
+export VERBOSE
 
-debug_log "Positional parameters [--profile] ${PROFILE} [--debug] ${DEBUG_LOG}"
+verbose_log "Positional parameters [--profile] ${PROFILE} [--verbose] ${VERBOSE}"
 
 [ "$PROFILE" = "ppaas" ] && {
 

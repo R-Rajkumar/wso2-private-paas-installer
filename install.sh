@@ -26,7 +26,7 @@ PACKS_PATH=${INSTALLER_PATH}/packs
 CONF_PATH=${INSTALLER_PATH}/conf
 
 # installation variables
-DEBUG_LOG=false
+VERBOSE=false
 PROFILE="default"
 CLEAN=false
 
@@ -50,8 +50,8 @@ case ${key} in
      display_help
      exit 0
     ;;
-    -d|--debug)
-     DEBUG_LOG=true
+    -v|--verbose)
+     VERBOSE=true
     ;;
     -p|--profile)
      PROFILE="$2"
@@ -67,10 +67,16 @@ esac
 shift
 done
 
-# exporting DEBUG_LOG as environment variable
-export DEBUG_LOG
+# Make sure the user is running as root.
+if [ "$UID" -ne "0" ]; then
+  info_log "Need root access. Run the script $0 as 'root' or with 'sudo' permissions"
+  exit 69
+fi
 
-debug_log "Positional parameters [--profile] ${PROFILE} [--debug] ${DEBUG_LOG} [--clean] ${CLEAN}"
+# exporting VERBOSE as environment variable
+export VERBOSE
+
+verbose_log "Positional parameters [--profile] ${PROFILE} [--verbose] ${VERBOSE} [--clean] ${CLEAN}"
 
 [ "$PROFILE" = "ppaas" ] && [ "$CLEAN" = false ] && {
    # starting wso2 private paas
@@ -80,6 +86,12 @@ debug_log "Positional parameters [--profile] ${PROFILE} [--debug] ${DEBUG_LOG} [
 [ "$PROFILE" = "activemq" ] && [ "$CLEAN" = false ] && {
    # starting activemq
    ${SCRIPTS_PATH}/install_activemq.sh
+}
+
+[ "$PROFILE" = "puppet" ] && [ "$CLEAN" = false ] && {
+   # starting activemq
+   args=("-m" "-d${stratos_domain}")
+   ${SCRIPTS_PATH}/install_puppet.sh "${args[@]}"
 }
 
 info_log "Installation completed successfully"

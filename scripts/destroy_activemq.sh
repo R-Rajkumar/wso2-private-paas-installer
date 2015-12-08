@@ -22,7 +22,7 @@ source ${SCRIPTS_PATH}/functions.sh
 source ${CONF_PATH}/setup.conf
 
 info_log "Cleaning ActiveMQ installation"
-debug_log "Executing $0"
+verbose_log "Executing $0"
 
 info_log "Stopping private paas"
 /etc/init.d/activemq stop

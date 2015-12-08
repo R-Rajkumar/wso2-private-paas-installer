@@ -22,13 +22,13 @@ source ${SCRIPTS_PATH}/functions.sh
 source ${CONF_PATH}/setup.conf
 
 info_log "ActiveMQ installation started"
-debug_log "Executing $0"
+verbose_log "Executing $0"
 
 # overriding default environment variables
 source ${CONF_PATH}/setup.conf
 
 # firing a puppet apply command to install activemq
-debug_log "Running ${RUN_PUPPET_APPLY} --modulepath=${FACTER_puppet_modules_path} -e \"include activemq\""
+verbose_log "Running ${RUN_PUPPET_APPLY} --modulepath=${FACTER_puppet_modules_path} -e \"include activemq\""
 ${RUN_PUPPET_APPLY} --modulepath=${FACTER_puppet_modules_path} -e "include activemq"
 
 info_log "ActiveMQ installation completed successfully"
