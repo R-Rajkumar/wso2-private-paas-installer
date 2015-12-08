@@ -65,3 +65,14 @@ function overwrite_property_value_in_file() {
 function list_ip_addresses() {
     ifconfig | awk '/inet addr/{print substr($2,6)}'
 }
+
+# action : prompt for user input if $3 is not set
+# usage  : read_user_input ${prompt_message} "" ${variable_to_check_whether_set_or_not}
+function read_user_input() {
+    if [[ "$3" = "" ]] ; then
+        read $2 -p "$1" user_input
+        echo -n ${user_input}
+    else
+        echo $3
+    fi
+}
