@@ -24,6 +24,7 @@ INSTALLER_PATH=`cd ${CURRENT_DIR};pwd`
 SCRIPTS_PATH=${INSTALLER_PATH}/scripts
 PACKS_PATH=${INSTALLER_PATH}/packs
 CONF_PATH=${INSTALLER_PATH}/conf
+SETUP_CONF_FILE="${CONF_PATH}/setup.conf"
 
 # installation variables
 VERBOSE=false
@@ -35,6 +36,7 @@ export INSTALLER_PATH
 export SCRIPTS_PATH
 export PACKS_PATH
 export CONF_PATH
+export SETUP_CONF_FILE
 
 source ${SCRIPTS_PATH}/config.sh
 source ${SCRIPTS_PATH}/functions.sh

@@ -97,8 +97,18 @@ function export_variables_from_file {
         done < $1
 }
 
+# action : read uncommented key-value pairs from the given file and export them as facter environment variables
+# usage  : declare_variables_from_file ${file}
+function export_variables_from_file_as_facter_variables {
+    while read -r line
+        do
+            [[ "$line" =~ ^#.*$ ]] && continue
+            export "FACTER_${line}" &> /dev/null
+        done < $1
+}
+
 # action : read a property value from the given file
 # usage  : read_property ${key} ${file}
 function read_property() {
-    echo "$(grep $1 $2 |  awk -F= '{print $2}')"
+    echo $(grep -v '^$\|^\s*\#' $2 | grep "$1\=" |  awk -F= '{print $2}')
 }

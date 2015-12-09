@@ -19,67 +19,69 @@
 
 source ${SCRIPTS_PATH}/config.sh
 source ${SCRIPTS_PATH}/functions.sh
-source ${CONF_PATH}/setup.conf
 
 info_log "Private paas installation started"
 verbose_log "Executing $0"
 
 info_log "Listing available ip address of the machine \n$(list_ip_addresses)"
-info_log_n  "Please select one of the above ip address to run private paas with or press enter keep the default value ${FACTER_ppaas_host_ip} : "
-read machine_ip
+default_ppaas_host_ip=$(read_property "ppaas_host_ip" ${SETUP_CONF_FILE})
+ppaas_host_ip=$(read_user_input  "Please select one of the above ip address to run private paas with : " "" ${default_ppaas_host_ip})
+verbose_log "You have chosen ${ppaas_host_ip} as private paas ip"
 
-if [[ -z "$machine_ip" ]];
-then
-  verbose_log "You have selected the default value ${FACTER_ppaas_host_ip} as private paas ip"
-elif [[ ! -z "$machine_ip" ]] && [[ $(list_ip_addresses) == *"${machine_ip}"* ]];
-then
-  verbose_log "You entered ${machine_ip} as private paas ip"
-  overwrite_property_value_in_file "FACTER_ppaas_host_ip" "$machine_ip" "${CONF_PATH}/setup.conf"
-else
-  verbose_log "You entered ${machine_ip} as private paas ip"
-  info_log "Entered ip is not available in this machine, proceeding with 127.0.0.1"
-  overwrite_property_value_in_file "FACTER_ppaas_host_ip" "127.0.0.1" "${CONF_PATH}/setup.conf"
+if [[ "$default_ppaas_host_ip" != "$ppaas_host_ip" ]]; then
+    if [[ ! -z "$ppaas_host_ip" ]] && [[ $(list_ip_addresses) == *"${ppaas_host_ip}"* ]];
+    then
+        overwrite_property_value_in_file "ppaas_host_ip" "$ppaas_host_ip" ${SETUP_CONF_FILE}
+    else
+        info_log "Chosen ip ${ppaas_host_ip} is not available in this machine, proceeding with 127.0.0.1"
+        overwrite_property_value_in_file "ppaas_host_ip" "127.0.0.1" ${SETUP_CONF_FILE}
+    fi
 fi
 
-if [[ ${FACTER_ppaas_offset} -ge 0 ]];
-then
-  info_log_n  "Please enter private paas port offset or press enter to keep the default value $FACTER_ppaas_offset : "
-else
-  info_log_n  "Please enter private paas port offset : "
-fi
+default_ppaas_offset=$(read_property "ppaas_offset" ${SETUP_CONF_FILE})
+ppaas_offset=$(read_user_input  "Please enter private paas port offset : " "" ${default_ppaas_offset})
+verbose_log "You have chosen ${ppaas_offset} as private paas port offset"
 
-read ppaas_offset
-verbose_log "You entered ${ppaas_offset} as private paas port offset"
-
-[[ ! -z ${ppaas_offset} ]] && [[ ${ppaas_offset}  =~ ^-?[0-9]+$ ]] && [[ ${ppaas_offset}  -ge 0 ]] && {
-  overwrite_property_value_in_file "FACTER_ppaas_offset" $ppaas_offset "${CONF_PATH}/setup.conf"
-  overwrite_property_value_in_file "FACTER_ppaas_host_port" $((${FACTER_ppaas_host_port} + ${ppaas_offset})) "${CONF_PATH}/setup.conf"
+[[ ! -z ${ppaas_offset} ]] && [[ ${ppaas_offset}  =~ ^-?[0-9]+$ ]] && [[ ${ppaas_offset}  -ge 0 ]] && [[ "$default_ppaas_offset" != "$ppaas_offset" ]] &&{
+  overwrite_property_value_in_file "ppaas_offset" $ppaas_offset ${SETUP_CONF_FILE}
+  ppaas_host_port=$(read_property "ppaas_host_port" ${SETUP_CONF_FILE})
+  overwrite_property_value_in_file "ppaas_host_port" $((${ppaas_host_port} + ${ppaas_offset})) ${SETUP_CONF_FILE}
 }
 
-if [[ -z "$FACTER_mb_url" ]];
- then
-  info_log_n  "Please enter message broker amqp url : "
- else
-  info_log_n  "Please enter message broker amqp url or press enter to keep the default value $FACTER_mb_url : "
+default_mb_ip=$(read_property "mb_ip" ${SETUP_CONF_FILE})
+mb_ip=$(read_user_input  "Please enter message broker ip : " "" ${default_mb_ip})
+verbose_log "You have chosen ${mb_ip} as message broker ip"
+
+if [[ -z "$mb_ip" ]];
+then
+  info_log "Chosen message broker ip is not valid, proceeding with localhost"
+  overwrite_property_value_in_file "mb_ip" "localhost" ${SETUP_CONF_FILE}
+elif [[ "$mb_ip" != "$default_mb_ip" ]]
+then
+  overwrite_property_value_in_file "mb_ip" "$mb_ip" ${SETUP_CONF_FILE}
 fi
 
-read mb_amqp_url
+default_mb_port=$(read_property "mb_port" ${SETUP_CONF_FILE})
+mb_port=$(read_user_input  "Please enter message broker port : " "" ${default_mb_port})
+verbose_log "You have chosen ${mb_port} as message broker port"
 
-if [[ -z "$mb_amqp_url" ]] && [[ -z "$FACTER_mb_url" ]];
+if [[ -z "$mb_port" ]];
 then
-  info_log "Entered message broker amqp url is not valid, proceeding with tcp://localhost:61616"
-  overwrite_property_value_in_file "FACTER_mb_url" "tcp://localhost:61616" "${CONF_PATH}/setup.conf"
-elif [[ -z "$mb_amqp_url" ]] && [[ ! -z "$FACTER_mb_url" ]];
+  info_log "Chosen message broker port is not valid, proceeding with 61616"
+  overwrite_property_value_in_file "mb_port" "61616" ${SETUP_CONF_FILE}
+elif [[ "$mb_port" != "$default_mb_port" ]]
 then
-  verbose_log "You have selected the default value ${FACTER_mb_url} as message broker amqp url"
-elif [[ ! -z "$mb_amqp_url" ]];
-then
-  verbose_log "You entered ${mb_amqp_url} as message broker amqp url"
-  overwrite_property_value_in_file "FACTER_mb_url" "$mb_amqp_url" "${CONF_PATH}/setup.conf"
+  overwrite_property_value_in_file "mb_port" "$mb_port" ${SETUP_CONF_FILE}
 fi
 
-# overriding default environment variables before running puppet apply
-source ${CONF_PATH}/setup.conf
+# exporting facter variables before calling puppet apply
+export_variables_from_file_as_facter_variables ${SETUP_CONF_FILE}
+export_variables_from_file ${SETUP_CONF_FILE}
+echo $mb_ip;
+echo $mb_port;
+echo $mb_url;
+
+exit;
 
 # firing a puppet apply command to install wso2 private paas
 verbose_log "Running ${RUN_PUPPET_APPLY} --modulepath=${FACTER_puppet_modules_path} -e \"include ppaas\""
